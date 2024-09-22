@@ -5,11 +5,16 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter_realtime_detection/pages/ar.dart';
 import 'package:flutter_realtime_detection/pages/user_profile_page.dart';
+import 'package:flutter_realtime_detection/pages/webView.dart';
 import 'package:flutter_realtime_detection/slider.dart';
 
 class Home extends StatelessWidget {
+  Home({Key? key, required this.cameras}) : super(key: key);
+
+  final List<CameraDescription> cameras;
   final songsTabKey = GlobalKey();
 
   Widget _buildIosHomePage(BuildContext context) {
@@ -31,7 +36,9 @@ class Home extends StatelessWidget {
                 // const WebView(),
                 SliderImages(),
                 // ArVrPage(),
-                const AccountPage(),
+                WebView(
+                    url: Uri.parse('https://calendly.com/fordham_lite'),
+                    showBackButton: false),
               ],
             ),
           ),
@@ -77,7 +84,8 @@ class Home extends StatelessWidget {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => ArVrPage(),
+                    builder: (BuildContext context) =>
+                        ArVrPage(camera: cameras)
                 ),
               );
             },

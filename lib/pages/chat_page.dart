@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_realtime_detection/home_page.dart';
+import 'package:flutter_realtime_detection/main.dart';
 import 'package:flutter_realtime_detection/models/chat_message.dart';
 import 'package:flutter_realtime_detection/pages/widgets/message_bubble.dart';
 import 'package:flutter_realtime_detection/pages/widgets/message_composer.dart';
@@ -209,7 +210,11 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 onPressed: () => {
                   Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => Home())),
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Home(
+                                cameras: cameras,
+                              ))),
                   HapticFeedback.mediumImpact()
                 },
               ),

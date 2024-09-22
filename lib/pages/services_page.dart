@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_realtime_detection/pages/webView.dart';
 
 class ServicePage extends StatelessWidget {
   const ServicePage({Key? key, required this.title, required this.data})
@@ -12,8 +13,9 @@ class ServicePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
+      backgroundColor: isDark ? Colors.black : Colors.white,
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Stack(
           children: [
             SingleChildScrollView(
@@ -21,6 +23,17 @@ class ServicePage extends StatelessWidget {
                 children: [
                   const SizedBox(height: 130),
                   MarkdownBody(
+                    selectable: true,
+                    onTapLink: (text, href, title) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WebView(
+                            url: Uri.parse(href!),
+                          ),
+                        ),
+                      );
+                    },
                     styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino,
                     styleSheet: MarkdownStyleSheet(
                       p: TextStyle(
@@ -50,6 +63,7 @@ class ServicePage extends StatelessWidget {
                         color: isDark ? Colors.grey : Colors.black,
                         fontSize: 14,
                       ),
+                      
                     ),
                     data: data,
                   ),

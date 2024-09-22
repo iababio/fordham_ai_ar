@@ -1,66 +1,114 @@
+
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter_realtime_detection/pages/ai_detect/bndbox.dart';
 import 'package:flutter_realtime_detection/pages/ai_detect/camera.dart';
 import 'package:flutter_realtime_detection/pages/ai_detect/models.dart';
+import 'package:flutter_realtime_detection/pages/ar.dart';
+import 'package:flutter_realtime_detection/pages/widgets/styled_button.dart';
 import 'package:tflite/tflite.dart';
 import 'dart:math' as math;
-
+import 'package:flutter_realtime_detection/pages/ai_detect/bndbox.dart';
 
 class DetectObj extends StatefulWidget {
+  const DetectObj({Key? key, required this.cameras, required this.toddleARKitView}) : super(key: key);
+
+  final void Function(dynamic label) toddleARKitView;
   final List<CameraDescription> cameras;
 
-  DetectObj(this.cameras);
-
   @override
-  _HomePageState createState() => new _HomePageState();
+  _DetectObjState createState() => _DetectObjState();
 }
 
-class _HomePageState extends State<DetectObj> {
+class _DetectObjState extends State<DetectObj> with TickerProviderStateMixin {
+  // CameraController? _cameraController;
+  // late List<CameraDescription> cameras;
   late List<dynamic> _recognitions = [];
   int _imageHeight = 0;
   int _imageWidth = 0;
-  String _model = "";
+  String _model = "ssd";
+  bool isCameraReady = false;
+  Timer? _timer; // Timer to log every 3 seconds
+  String _label = '';
 
   @override
   void initState() {
     super.initState();
+    loadModel();
+    startLoggingTimer(); // Start the logging timer
+
+
+    // Initialize the animation controller
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+
+    _animation = CurvedAnimation(
+      parent: _animationController!,
+      curve: Curves.easeInOut,
+    );
   }
+
+  void startLoggingTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      logRecognitions();
+    });
+  }
+
+  void logRecognitions() {
+    // Trigger the animation with a delay, checking if the widget is still mounted
+    Timer(const Duration(seconds: 1), () {
+      if (mounted) {
+        _animationController?.forward();
+      }
+    });
+
+    if (_recognitions.isNotEmpty) {
+      for (var recognition in _recognitions) {
+        String label = recognition['detectedClass'] ?? 'Unknown';
+        double confidence = recognition['confidence'] ?? 0.0;
+        print('Detected object: $label');
+        setState(() {
+          _label = label;
+        });
+      }
+    }
+  }
+
+
+  AnimationController? _animationController;
+  Animation<double>? _animation;
+
 
   loadModel() async {
-    String? res;
-    switch (_model) {
-      case yolo:
-        res = await Tflite.loadModel(
-          model: "assets/last-fp16.tflite",
-          labels: "assets/yolov2_tiny.txt",
-        );
-        break;
-
-      case mobilenet:
-        res = await Tflite.loadModel(
-            model: "assets/model_fdn.tflite",
-            labels: "assets/fdn.txt");
-        break;
-
-      case posenet:
-        res = await Tflite.loadModel(
-            model: "assets/posenet_mv1_075_float_from_checkpoints.tflite");
-        break;
-
-      default:
-        res = await Tflite.loadModel(
-            model: "assets/model_fdn.tflite",
-            labels: "assets/fdn.txt");
+    try {
+      String? res = await Tflite.loadModel(
+        model: "assets/ssd_mobilenet.tflite",
+        labels: "assets/ssd_mobilenet.txt",
+      );
+    } catch (e) {
+      print("Error loading model: $e");
     }
-    print(res);
   }
 
-  onSelect(model) {
-    setState(() {
-      _model = model;
-    });
-    loadModel();
+  runModelOnFrame(CameraImage img) async {
+    try {
+      var recognitions = await Tflite.detectObjectOnFrame(
+        bytesList: img.planes.map((plane) => plane.bytes).toList(),
+        model: "SSDMobileNet",
+        imageHeight: img.height,
+        imageWidth: img.width,
+        imageMean: 127.5,
+        imageStd: 127.5,
+        threshold: 0.5,
+        numResultsPerClass: 1,
+      );
+
+      setRecognitions(recognitions!, img.height, img.width);
+    } catch (e) {
+      print("Error running model on frame: $e");
+    }
   }
 
   setRecognitions(recognitions, imageHeight, imageWidth) {
@@ -72,49 +120,44 @@ class _HomePageState extends State<DetectObj> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: _model == ""
-          ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              child: const Text(ssd),
-              onPressed: () => onSelect(ssd),
-            ),
-            ElevatedButton(
-              child: const Text(yolo),
-              onPressed: () => onSelect(yolo),
-            ),
-            ElevatedButton(
-              child: const Text(mobilenet),
-              onPressed: () => onSelect(mobilenet),
-            ),
-            ElevatedButton(
-              child: const Text(posenet),
-              onPressed: () => onSelect(posenet),
-            ),
-          ],
-        ),
-      )
-          : Stack(
+      body: Stack(
         children: [
           Camera(
             widget.cameras,
             _model,
             setRecognitions,
           ),
-          BndBox(
-              _recognitions,
-              math.max(_imageHeight, _imageWidth),
-              math.min(_imageHeight, _imageWidth),
-              screen.height,
-              screen.width,
-              _model),
+          if (_label != 'unknown' && _label.isNotEmpty)
+            Align(
+              alignment: Alignment.topRight,
+              child: FadeTransition(
+                opacity: _animation!,
+                child: InkWell(
+                  onTap: () {
+                    widget.toddleARKitView(_label);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0, top: 200),
+                    child: RainbowButton(
+                      label: _label,
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
   }
 }
+
+

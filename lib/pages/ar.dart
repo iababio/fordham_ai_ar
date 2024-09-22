@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
@@ -11,24 +10,27 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 
 import 'widgets/info_dialog.dart';
 import 'package:camera/camera.dart';
-
 import 'package:flutter/services.dart';
 
-List<CameraDescription> cameras = [];
 
 class ArVrPage extends StatefulWidget {
+  const ArVrPage({Key? key, required this.camera}) : super(key: key);
+
+  final List<CameraDescription> camera;
+
   @override
   _ArVrPageState createState() => _ArVrPageState();
 }
 
 class _ArVrPageState extends State<ArVrPage>
     with SingleTickerProviderStateMixin {
-  late ARKitController arkitController;
+  ARKitController? arkitController; // Nullable ARKitController
   Timer? timer;
   bool anchorWasFound = false;
   bool showMap = false;
   bool _showARKitView = false;
   String imageDetected = '';
+  CameraController? cameraController;
 
   AnimationController? _animationController;
   Animation<double>? _animation;
@@ -36,7 +38,7 @@ class _ArVrPageState extends State<ArVrPage>
   @override
   void initState() {
     super.initState();
-    get_cam();
+    getCam();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -57,28 +59,31 @@ class _ArVrPageState extends State<ArVrPage>
     _animationController!.forward();
   }
 
-  void get_cam() async {
-    cameras = await availableCameras();
+  void getCam() async {
+    cameraController =
+        CameraController(widget.camera[0], ResolutionPreset.high);
+    await cameraController?.initialize();
+    setState(() {});
   }
 
-
-
-  void toddleARKitView(label) {
+  void toggleARKitView(dynamic label) {
     setState(() {
       _showARKitView = !_showARKitView;
       imageDetected = label;
     });
   }
 
-
   @override
   void dispose() {
     _animationController?.dispose();
+    cameraController?.dispose(); // Dispose of the camera controller
     timer?.cancel();
-    // arkitController.dispose();
+
+    // Safely dispose the ARKit controller if it is initialized
+    arkitController?.dispose();
+
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -149,9 +154,10 @@ class _ArVrPageState extends State<ArVrPage>
         children: [
           _showARKitView
               ? ARKitSceneView(
-            onARKitViewCreated: onARKitViewCreated,
-          )
-          : DetectObj(cameras),
+                  onARKitViewCreated: onARKitViewCreated,
+                )
+              : DetectObj(
+                  cameras: widget.camera, toddleARKitView: toggleARKitView),
           Positioned(
             top: 60,
             left: 20,
@@ -174,7 +180,6 @@ class _ArVrPageState extends State<ArVrPage>
               ),
             ),
           ),
-
           if (showMap)
             DraggableScrollableSheet(
               initialChildSize: 0.35,
@@ -200,61 +205,58 @@ class _ArVrPageState extends State<ArVrPage>
                 );
               },
             ),
-
           _showARKitView
               ? Align(
-            alignment: Alignment.topRight, // Adjust alignment as needed
-            child: FadeTransition(
-              opacity: _animation!,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.1 + 400,
-                ), // Adjust padding as needed
-                child: IconButton(
-                  icon: Icon(
-                    Icons.view_in_ar,
-                    size: 50,
-                    color: isDark ? Colors.black : Colors.white,
+                  alignment: Alignment.topRight,
+                  child: FadeTransition(
+                    opacity: _animation!,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.1 + 400,
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.view_in_ar,
+                          size: 50,
+                          color: isDark ? Colors.black : Colors.white,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _showARKitView = !_showARKitView;
+                          });
+                        },
+                      ),
+                    ),
                   ),
-                  onPressed: () {
-                    // set state to show ARKitView
-                    setState(() {
-                      _showARKitView = !_showARKitView;
-                    });
-                  },
-                ),
-              ),
-            ),
-          )
+                )
               : SizedBox.shrink(),
-
         ],
       ),
     );
   }
 
-
   void onARKitViewCreated(ARKitController controller) {
-    this.arkitController = controller;
+    // Initialize arkitController here
+    arkitController = controller;
 
-    // Adding AR objects for demonstration
-    this.arkitController.add(_createSphere());
-    this.arkitController.add(_createPlane());
-    this.arkitController.add(_createText());
-    this.arkitController.add(_createBox());
-    this.arkitController.add(_createCylinder());
-    this.arkitController.add(_createCone());
-    this.arkitController.add(_createPyramid());
-    this.arkitController.add(_createTube());
-    this.arkitController.add(_createTorus());
-    this.arkitController.add(_createCapsule());
+    // ARKit objects creation logic...
+    arkitController?.add(_createSphere());
+    arkitController?.add(_createPlane());
+    arkitController?.add(_createText());
+    arkitController?.add(_createBox());
+    arkitController?.add(_createCylinder());
+    arkitController?.add(_createCone());
+    arkitController?.add(_createPyramid());
+    arkitController?.add(_createTube());
+    arkitController?.add(_createTorus());
+    arkitController?.add(_createCapsule());
   }
 
   ARKitNode _createSphere() => ARKitNode(
-    geometry:
-    ARKitSphere(materials: _createRandomColorMaterial(), radius: 0.04),
-    position: vector.Vector3(-0.1, -0.1, -0.5),
-  );
+        geometry:
+            ARKitSphere(materials: _createRandomColorMaterial(), radius: 0.04),
+        position: vector.Vector3(-0.1, -0.1, -0.5),
+      );
 
   ARKitNode _createPlane() {
     final plane = ARKitPlane(
@@ -293,76 +295,77 @@ class _ArVrPageState extends State<ArVrPage>
   }
 
   ARKitNode _createBox() => ARKitNode(
-    geometry: ARKitBox(
-        width: 0.06,
-        height: 0.06,
-        length: 0.06,
-        chamferRadius: 0.01,
-        materials: _createRandomColorMaterial()),
-    position: vector.Vector3(-0.1, 0, -0.5),
-  );
+        geometry: ARKitBox(
+            width: 0.06,
+            height: 0.06,
+            length: 0.06,
+            chamferRadius: 0.01,
+            materials: _createRandomColorMaterial()),
+        position: vector.Vector3(-0.1, 0, -0.5),
+      );
 
   ARKitNode _createCylinder() => ARKitNode(
-    geometry: ARKitCylinder(
-        radius: 0.05,
-        height: 0.09,
-        materials: _createRandomColorMaterial()),
-    position: vector.Vector3(-0.1, 0.1, -0.5),
-  );
+        geometry: ARKitCylinder(
+            radius: 0.05,
+            height: 0.09,
+            materials: _createRandomColorMaterial()),
+        position: vector.Vector3(-0.1, 0.1, -0.5),
+      );
 
   ARKitNode _createCone() => ARKitNode(
-    geometry: ARKitCone(
-        topRadius: 0,
-        bottomRadius: 0.05,
-        height: 0.09,
-        materials: _createRandomColorMaterial()),
-    position: vector.Vector3(0, -0.1, -0.5),
-  );
+        geometry: ARKitCone(
+            topRadius: 0,
+            bottomRadius: 0.05,
+            height: 0.09,
+            materials: _createRandomColorMaterial()),
+        position: vector.Vector3(0, -0.2, -0.5),
+      );
 
   ARKitNode _createPyramid() => ARKitNode(
-    geometry: ARKitPyramid(
-        width: 0.09,
-        height: 0.09,
-        length: 0.09,
-        materials: _createRandomColorMaterial()),
-    position: vector.Vector3(0, -0.05, -0.5),
-  );
+        geometry: ARKitPyramid(
+            width: 0.06,
+            height: 0.06,
+            length: 0.06,
+            materials: _createRandomColorMaterial()),
+        position: vector.Vector3(-0.2, -0.2, -0.5),
+      );
 
   ARKitNode _createTube() => ARKitNode(
-    geometry: ARKitTube(
-        innerRadius: 0.03,
-        outerRadius: 0.05,
-        height: 0.09,
-        materials: _createRandomColorMaterial()),
-    position: vector.Vector3(0.1, 0.1, -0.5),
-  );
+        geometry: ARKitTube(
+            innerRadius: 0.03,
+            outerRadius: 0.05,
+            height: 0.2,
+            materials: _createRandomColorMaterial()),
+        position: vector.Vector3(0.2, -0.2, -0.5),
+      );
 
   ARKitNode _createTorus() => ARKitNode(
-    geometry: ARKitTorus(
-        ringRadius: 0.04,
-        pipeRadius: 0.02,
-        materials: _createRandomColorMaterial()),
-    position: vector.Vector3(0.1, -0.1, -0.5),
-  );
+        geometry: ARKitTorus(
+            ringRadius: 0.05,
+            pipeRadius: 0.02,
+            materials: _createRandomColorMaterial()),
+        position: vector.Vector3(0.1, 0, -0.5),
+      );
 
   ARKitNode _createCapsule() => ARKitNode(
-    geometry: ARKitCapsule(
-        capRadius: 0.02,
-        height: 0.06,
-        materials: _createRandomColorMaterial()),
-    position: vector.Vector3(0.1, 0, -0.5),
-  );
+        geometry: ARKitCapsule(
+            capRadius: 0.03,
+            height: 0.1,
+            materials: _createRandomColorMaterial()),
+        position: vector.Vector3(0.2, 0.1, -0.5),
+      );
 
-  final _rnd = math.Random();
   List<ARKitMaterial> _createRandomColorMaterial() {
+    final random = math.Random();
+    final color = Color.fromRGBO(
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
+      1,
+    );
     return [
       ARKitMaterial(
-        lightingModelName: ARKitLightingModel.physicallyBased,
-        metalness: ARKitMaterialProperty.value(_rnd.nextDouble()),
-        roughness: ARKitMaterialProperty.value(_rnd.nextDouble()),
-        diffuse: ARKitMaterialProperty.color(
-          Color((_rnd.nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0),
-        ),
+        diffuse: ARKitMaterialProperty.color(color),
       )
     ];
   }

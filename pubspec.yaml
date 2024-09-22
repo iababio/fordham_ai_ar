@@ -1,5 +1,5 @@
-name: flutter_realtime_detection
-description: A new Flutter project.
+name: Fordham AR
+description: Fordham AR is an augmented reality application that allows users to explore Fordham University's Rose Hill campus in a new and interactive way. Users can view 3D models of buildings, navigate through the campus, and learn more about the history of the university.
 version: 1.0.0+1
 
 environment:
@@ -12,11 +12,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
+  webview_flutter: ^4.8.0
   camera: ^0.11.0+2
 
   tflite: ^1.1.2
@@ -45,6 +41,13 @@ dev_dependencies:
   loading_animation_widget: ^1.2.0+4
   flutter_lorem: ^2.0.0
 
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  
+
+
 
 
 
@@ -71,8 +74,9 @@ flutter:
   assets:
    - assets/images/
    - assets/images/backgrounds/
-   - assets/fdn.tflite
+   - assets/detect_x1.tflite
    - assets/model_fdn.tflite
+   - assets/detect2.tflite
    - assets/fnd_1.tflite
    - assets/model.tflite
    - assets/last-fp16.tflite

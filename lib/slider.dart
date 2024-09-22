@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:flutter_realtime_detection/pages/widgets/grid_tiles.dart';
+import 'package:FordhamAR/pages/widgets/grid_tiles.dart';
 import 'package:xml2json/xml2json.dart';
 import 'package:http/http.dart' as http;
 import 'package:dart_rss/dart_rss.dart';

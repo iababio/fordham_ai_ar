@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:dart_openai/dart_openai.dart';
-import 'package:flutter_realtime_detection/constants/api_consts.dart';
-import 'package:flutter_realtime_detection/models/chat_message.dart';
+import 'package:FordhamAR/constants/api_consts.dart';
+import 'package:FordhamAR/models/chat_message.dart';
 
 class ChatApi {
   // static const _model = 'gpt-3.5-turbo';

@@ -4,8 +4,8 @@ import 'dart:math' as math;
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_realtime_detection/detect_page.dart';
-import 'package:flutter_realtime_detection/google_maps.dart';
+import 'package:FordhamAR/detect_page.dart';
+import 'package:FordhamAR/google_maps.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 import 'widgets/info_dialog.dart';

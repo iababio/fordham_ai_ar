@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_realtime_detection/utils/color.dart';
+import 'package:FordhamAR/utils/color.dart';
 
 class SettingBox extends StatelessWidget {
   const SettingBox({

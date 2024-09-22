@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_realtime_detection/pages/widgets/custom_image.dart';
-import 'package:flutter_realtime_detection/pages/widgets/setting_box.dart';
-import 'package:flutter_realtime_detection/pages/widgets/setting_item.dart';
-import 'package:flutter_realtime_detection/utils/color.dart';
-import 'package:flutter_realtime_detection/utils/data.dart';
+import 'package:FordhamAR/pages/widgets/custom_image.dart';
+import 'package:FordhamAR/pages/widgets/setting_box.dart';
+import 'package:FordhamAR/pages/widgets/setting_item.dart';
+import 'package:FordhamAR/utils/color.dart';
+import 'package:FordhamAR/utils/data.dart';
 
 
 class AccountPage extends StatefulWidget {

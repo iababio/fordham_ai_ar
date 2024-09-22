@@ -4,7 +4,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_realtime_detection/pages/widgets/widgets.dart';
+import 'package:FordhamAR/pages/widgets/widgets.dart';
 
 
 

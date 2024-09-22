@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_realtime_detection/pages/widgets/frosted_glass.dart'; // Adjust the import path as necessary
+import 'package:FordhamAR/pages/widgets/frosted_glass.dart'; // Adjust the import path as necessary
 
 
 class RainbowButton extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_realtime_detection/pages/webView.dart';
+import 'package:FordhamAR/pages/webView.dart';
 
 class ServicePage extends StatelessWidget {
   const ServicePage({Key? key, required this.title, required this.data})

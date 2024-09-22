@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_realtime_detection/pages/chat_page.dart';
-import 'package:flutter_realtime_detection/pages/services_page.dart';
-import 'package:flutter_realtime_detection/pages/webView.dart';
-import 'package:flutter_realtime_detection/services/chat_api.dart';
-import 'package:flutter_realtime_detection/utils/data_infos.dart';
+import 'package:FordhamAR/pages/chat_page.dart';
+import 'package:FordhamAR/pages/services_page.dart';
+import 'package:FordhamAR/pages/webView.dart';
+import 'package:FordhamAR/services/chat_api.dart';
+import 'package:FordhamAR/utils/data_infos.dart';
 
 class GridTilesPage extends StatelessWidget {
   const GridTilesPage({
@@ -170,7 +170,8 @@ class GridTileItem extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => WebView(
-                    url: Uri.parse('https://fordhamsports.com/sports/tickets')),
+                    url: Uri.parse(
+                        'https://vivenu.com/seller/fordham-university-9zmz')),
               ));
         } else {
           Navigator.of(context).push(

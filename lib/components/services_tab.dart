@@ -5,8 +5,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_realtime_detection/pages/widgets/widgets.dart';
-import 'package:flutter_realtime_detection/services/chat_api.dart';
+import 'package:FordhamAR/pages/widgets/widgets.dart';
+import 'package:FordhamAR/services/chat_api.dart';
 
 import '../pages/chat_page.dart';
 import 'sevices_detail_tab.dart';

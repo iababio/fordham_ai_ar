@@ -2,13 +2,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter_realtime_detection/pages/ai_detect/camera.dart';
-import 'package:flutter_realtime_detection/pages/ai_detect/models.dart';
-import 'package:flutter_realtime_detection/pages/ar.dart';
-import 'package:flutter_realtime_detection/pages/widgets/styled_button.dart';
+import 'package:FordhamAR/pages/ai_detect/camera.dart';
+import 'package:FordhamAR/pages/ai_detect/models.dart';
+import 'package:FordhamAR/pages/ar.dart';
+import 'package:FordhamAR/pages/widgets/styled_button.dart';
 import 'package:tflite/tflite.dart';
 import 'dart:math' as math;
-import 'package:flutter_realtime_detection/pages/ai_detect/bndbox.dart';
+import 'package:FordhamAR/pages/ai_detect/bndbox.dart';
 
 class DetectObj extends StatefulWidget {
   const DetectObj({Key? key, required this.cameras, required this.toddleARKitView}) : super(key: key);

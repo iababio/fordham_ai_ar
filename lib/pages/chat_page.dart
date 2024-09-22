@@ -3,12 +3,12 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_realtime_detection/home_page.dart';
-import 'package:flutter_realtime_detection/main.dart';
-import 'package:flutter_realtime_detection/models/chat_message.dart';
-import 'package:flutter_realtime_detection/pages/widgets/message_bubble.dart';
-import 'package:flutter_realtime_detection/pages/widgets/message_composer.dart';
-import 'package:flutter_realtime_detection/services/chat_api.dart';
+import 'package:FordhamAR/home_page.dart';
+import 'package:FordhamAR/main.dart';
+import 'package:FordhamAR/models/chat_message.dart';
+import 'package:FordhamAR/pages/widgets/message_bubble.dart';
+import 'package:FordhamAR/pages/widgets/message_composer.dart';
+import 'package:FordhamAR/services/chat_api.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 

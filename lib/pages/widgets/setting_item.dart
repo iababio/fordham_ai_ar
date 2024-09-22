@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_realtime_detection/utils/color.dart';
+import 'package:FordhamAR/utils/color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingItem extends StatelessWidget {

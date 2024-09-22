@@ -6,10 +6,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter_realtime_detection/pages/ar.dart';
-import 'package:flutter_realtime_detection/pages/user_profile_page.dart';
-import 'package:flutter_realtime_detection/pages/webView.dart';
-import 'package:flutter_realtime_detection/slider.dart';
+import 'package:FordhamAR/pages/ar.dart';
+import 'package:FordhamAR/pages/user_profile_page.dart';
+import 'package:FordhamAR/pages/webView.dart';
+import 'package:FordhamAR/slider.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key, required this.cameras}) : super(key: key);

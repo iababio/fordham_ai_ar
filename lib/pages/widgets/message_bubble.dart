@@ -54,8 +54,8 @@ class MessageBubble extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     backgroundImage: isUserMessage
                         ? const AssetImage(
-                                    'assets/images/profileHolder.jpg')
-                                as ImageProvider<Object>
+                        'assets/images/profileHolder.jpg')
+                            as ImageProvider<Object>
                         : AssetImage('assets/images/fordham.png')
                             as ImageProvider<Object>,
                   ),

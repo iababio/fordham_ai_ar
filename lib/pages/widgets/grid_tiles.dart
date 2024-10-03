@@ -95,7 +95,7 @@ class GridTilesPage extends StatelessWidget {
                 color: Color.fromARGB(255, 229, 44, 44),
                 desc: "Fordham Hospital",
                 icon: Icons.local_hospital,
-                data: "Fordham Hospital",
+                data: Fordham_Health_Center,
               ),
               GridTileItem(
                 title: "Sports",
@@ -150,13 +150,6 @@ class GridTileItem extends StatelessWidget {
               builder: (context) => ChatPage(chatApi: ChatApi()),
             ),
           );
-        } else if (title == "Library") {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WebView(
-                    url: Uri.parse('https://www.library.fordham.edu/digital/')),
-              ));
         } else if (title == "Dining") {
           Navigator.push(
               context,
@@ -172,6 +165,14 @@ class GridTileItem extends StatelessWidget {
                 builder: (context) => WebView(
                     url: Uri.parse(
                         'https://vivenu.com/seller/fordham-university-9zmz')),
+              ));
+        } else if (title == "Emerge..") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WebView(
+                    url: Uri.parse(
+                        'https://www.fordham.edu/student-life/safety-health-and-wellness/health-services/emergency-medical-services/')),
               ));
         } else {
           Navigator.of(context).push(

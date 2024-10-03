@@ -11,6 +11,8 @@ import 'package:FordhamAR/pages/user_profile_page.dart';
 import 'package:FordhamAR/pages/webView.dart';
 import 'package:FordhamAR/slider.dart';
 
+import 'ar_photo.dart';
+
 class Home extends StatelessWidget {
   Home({Key? key, required this.cameras}) : super(key: key);
 
@@ -36,9 +38,10 @@ class Home extends StatelessWidget {
                 // const WebView(),
                 SliderImages(),
                 // ArVrPage(),
-                WebView(
-                    url: Uri.parse('https://calendly.com/fordham_lite'),
-                    showBackButton: false),
+                PanoramaPage(),
+                // WebView(
+                //     url: Uri.parse('https://calendly.com/fordham_lite'),
+                //     showBackButton: false),
               ],
             ),
           ),

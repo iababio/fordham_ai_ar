@@ -206,13 +206,11 @@ class MapSampleState extends State<GoogleMaps> {
   Future<void> _getPolyline() async {
     try {
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        googleApiKey: googleAPiKey,
-        request: PolylineRequest(
-          origin: PointLatLng(_originLatitude, _originLongitude),
-          destination: PointLatLng(_destLatitude, _destLongitude),
-          mode: TravelMode.driving,
-          wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
-        ),
+        googleAPiKey,
+        PointLatLng(_originLatitude, _originLongitude),
+        PointLatLng(_destLatitude, _destLongitude),
+        travelMode: TravelMode.driving,
+        wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
       );
 
       if (result.points.isNotEmpty) {

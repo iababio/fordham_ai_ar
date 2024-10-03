@@ -68,36 +68,41 @@ class FrostedGlassBox extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 60,
-                        margin: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
-                            image:
-                                AssetImage('assets/images/backgrounds/1.png'),
-                            fit: BoxFit.cover,
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 15),
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
+                              image:
+                                  AssetImage('assets/images/fordham.png'),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      SizedBox(width: 20),
-                      Text(
-                        label,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        SizedBox(width: 20),
+                        Text(
+                          label,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Learning Commons another line of text to see the overflow of the text widget in the frosted glass box',
+                      'Point your camera at an object to detect and learn more about it.',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -105,24 +110,27 @@ class FrostedGlassBox extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Row(
-                      children: [
-                        Text(
-                          'View AR',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Row(
+                        children: [
+                          Text(
+                            'View AR',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Icon(
-                          Icons.view_in_ar,
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                      ],
+                          Icon(
+                            Icons.view_in_ar,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

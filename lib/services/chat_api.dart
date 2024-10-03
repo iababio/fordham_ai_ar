@@ -9,7 +9,8 @@ class ChatApi {
   static const _model = 'gpt-4-turbo-preview';
 
   // final _responseController = StreamController<String>();
-  StreamController<String> _responseController = StreamController<String>.broadcast();
+  StreamController<String> _responseController =
+      StreamController<String>.broadcast();
 
   Stream<String> get responseStream => _responseController.stream;
 
@@ -25,20 +26,20 @@ class ChatApi {
       model: _model,
       messages: messages
           .map((e) => OpenAIChatCompletionChoiceMessageModel(
-        role: e.isUserMessage
-            ? OpenAIChatMessageRole.user
-            : OpenAIChatMessageRole.system,
-        content: e.message,
-      ))
+                role: e.isUserMessage
+                    ? OpenAIChatMessageRole.user
+                    : OpenAIChatMessageRole.system,
+                content: e.content,
+              ))
           .toList(),
       temperature: 0.5,
       topP: 1,
     );
 
     chatCompletion.listen(
-          (streamChatCompletion) {
+      (streamChatCompletion) {
         final content = streamChatCompletion.choices.first.delta.content;
-        _responseController.sink.add(content! as String);
+        _responseController.sink.add(content!);
       },
       onDone: () {
         print("Done");

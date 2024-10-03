@@ -1,17 +1,18 @@
 // chat_page.dart
 import 'dart:async';
 
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
-import 'package:FordhamAR/home_page.dart';
-import 'package:FordhamAR/main.dart';
-import 'package:FordhamAR/models/chat_message.dart';
 import 'package:FordhamAR/pages/widgets/message_bubble.dart';
 import 'package:FordhamAR/pages/widgets/message_composer.dart';
 import 'package:FordhamAR/services/chat_api.dart';
+import 'package:flutter/services.dart';
+import 'package:FordhamAR/models/chat_message.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
+import '../components/drawer_menu.dart';
+import '../home_page.dart';
+import '../main.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -71,6 +72,10 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {
       _messages.add(ChatMessage(message, true));
       _awaitingResponse = true;
+    });
+
+    _messages.forEach((element) {
+      print(element.content);
     });
 
     widget.chatApi.completeChat(_messages);
@@ -156,7 +161,13 @@ class _ChatPageState extends State<ChatPage> {
               size: 25,
               color: isDark ? Colors.white70 : Colors.black87,
             ),
-            onPressed: () => {}),
+            onPressed: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const DrawerMenu()),
+                  ),
+                  HapticFeedback.mediumImpact()
+                }),
         foregroundColor: isDark ? Colors.white : Colors.black,
         elevation: 0,
         title: Center(
@@ -289,12 +300,12 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void dispose() {
     _scrollController.removeListener(_scrollListener);
-    setState(() {
-      _awaitingResponse = false;
-    });
     widget.chatApi.dispose();
     _responseSubscription?.cancel();
     _scrollController.dispose();
+    setState(() {
+      _awaitingResponse = false;
+    });
     super.dispose();
   }
 }

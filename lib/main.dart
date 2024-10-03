@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Fordham AI',
+      title: 'Fordham AR',
       themeMode: ThemeMode.system,
       theme: ThemeData.light(), // standard light theme
       darkTheme: ThemeData.dark(), // standard dark theme

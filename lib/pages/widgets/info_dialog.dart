@@ -6,12 +6,12 @@ Future<void> dialogBuilder(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Location information'),
+        title: const Text('Fordham AR'),
         content: const Text(
-          'A dialog is a type of modal window that\n'
-              'appears in front of app content to\n'
-              'provide critical information, or prompt\n'
-              'for a decision to be made.',
+          '=> Use the Map to check the landmark places\n\n'
+              '=> Walk toward any on the Markers on the Map\n\n'
+              '=> The App provides you with AR information\n\n'
+              '=> You can also use the AR/Panorama mode to explore the campus',
         ),
         actions: <Widget>[
           TextButton(

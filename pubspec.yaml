@@ -1,6 +1,6 @@
 name: FordhamAR
 description: Fordham AR is an augmented reality application that allows users to explore Fordham University's Rose Hill campus in a new and interactive way. Users can view 3D models of buildings, navigate through the campus, and learn more about the history of the university.
-version: 1.0.0+1
+version: 1.1.1+1
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
@@ -15,7 +15,6 @@ dependencies:
   webview_flutter: ^4.8.0
   camera: ^0.11.0+2
 
-  tflite: ^1.1.2
   flutter_markdown: ^0.7.3+1
   google_fonts: ^3.0.0
   arkit_plugin: ^1.1.0
@@ -37,9 +36,9 @@ dependencies:
   flutter_animate: ^4.5.0
   flutter_svg: ^2.0.9
   english_words: ^4.0.0
-#  image_cropper: ^8.0.2
   loading_animation_widget: ^1.2.0+4
   flutter_lorem: ^2.0.0
+  geolocator: ^9.0.0
 
 dev_dependencies:
   flutter_test:
@@ -59,13 +58,12 @@ flutter_launcher_icons:
 
 
 flutter:
-
   uses-material-design: true
 
 
   assets:
    - assets/images/
+   - assets/icons/
+   - assets/panorama/
    - assets/images/backgrounds/
-   - assets/ssd_mobilenet.tflite
-   - assets/ssd_mobilenet.txt
 

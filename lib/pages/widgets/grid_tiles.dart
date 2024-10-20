@@ -97,14 +97,14 @@ class GridTilesPage extends StatelessWidget {
                 icon: Icons.local_hospital,
                 data: Fordham_Health_Center,
               ),
-              GridTileItem(
-                title: "Sports",
-                percentage: 40,
-                color: Color.fromARGB(255, 175, 26, 150),
-                desc: "Fordham Sports",
-                icon: Icons.sports_baseball_outlined,
-                data: "Fordham Sports",
-              ),
+              // GridTileItem(
+              //   title: "Sports",
+              //   percentage: 40,
+              //   color: Color.fromARGB(255, 175, 26, 150),
+              //   desc: "Fordham Sports",
+              //   icon: Icons.sports_baseball_outlined,
+              //   data: "Fordham Sports",
+              // ),
               GridTileItem(
                 title: "Emerge..",
                 percentage: 40,

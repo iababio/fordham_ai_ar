@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.2" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0.1">
 <dict>
@@ -26,10 +26,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera for object detection</string>
-	<key>NSLocationAlwaysAndWhenInUsageDescription</key>
-	<string>Always and in usage permissions</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open to show your position on the map.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>always permissions</string>
+	<string>This app needs access to location when in the background for navigation purposes.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>When in use permissions</string>
 	<key>NSMicrophoneUsageDescription</key>

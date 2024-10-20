@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../components/drawer_menu.dart';
 import '../home_page.dart';
 import '../main.dart';
 
@@ -162,10 +161,7 @@ class _ChatPageState extends State<ChatPage> {
               color: isDark ? Colors.white70 : Colors.black87,
             ),
             onPressed: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const DrawerMenu()),
-                  ),
+                  Navigator.pop(context),
                   HapticFeedback.mediumImpact()
                 }),
         foregroundColor: isDark ? Colors.white : Colors.black,
@@ -200,36 +196,16 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
         actions: [
-          Row(
-            children: [
-              IconButton(
-                icon: FaIcon(
-                  FontAwesomeIcons.penToSquare,
-                  size: 22,
-                  color: isDark ? Colors.white70 : Colors.black87,
-                ),
-                onPressed: () => {
-                  setState(() => _messages.clear()),
-                  HapticFeedback.mediumImpact()
-                },
-              ),
-              IconButton(
-                icon: FaIcon(
-                  FontAwesomeIcons.gripVertical,
-                  size: 22,
-                  color: isDark ? Colors.white70 : Colors.black87,
-                ),
-                onPressed: () => {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Home(
-                                cameras: cameras,
-                              ))),
-                  HapticFeedback.mediumImpact()
-                },
-              ),
-            ],
+          IconButton(
+            icon: FaIcon(
+              FontAwesomeIcons.penToSquare,
+              size: 22,
+              color: isDark ? Colors.white70 : Colors.black87,
+            ),
+            onPressed: () => {
+              setState(() => _messages.clear()),
+              HapticFeedback.mediumImpact()
+            },
           ),
         ],
       ),

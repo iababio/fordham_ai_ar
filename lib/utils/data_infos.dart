@@ -73,7 +73,7 @@ In particular, LITE offers:
   Open Monday - Thursday, 9 AM - 5 PM.  
   Access to the digital whiteboard is open to all walk-ins.
 
-*The community should sign up to reserve time in the recording rooms, XR room, the 3D printers, and Makerspace at Rose Hill and Lincoln Center. Please sign up via Calendly [here](#).*
+*The community should sign up to reserve time in the recording rooms, XR room, the 3D printers, and Makerspace at Rose Hill and Lincoln Center*
 
 ## Locations
 
@@ -109,7 +109,7 @@ final OBS = """
 
 **Location**: Rose Hill, Walsh Library, Basement  
 **Studio Hours**: Monday - Friday, 10 AM - 6 PM
-**How to Book**: [Calendly](https://calendly.com/fordham_lite/lite-recording-room-a-clone?)
+**How to Book**: [Booking](https://fordhamlite.skedda.com/booking)
 
 ![OBS](https://firebasestorage.googleapis.com/v0/b/ramai-88436.appspot.com/o/IMG_9389.HEIC?alt=media&token=fb125e0c-984b-4aa8-8ab2-7c6f298bf309)
 
@@ -156,7 +156,7 @@ final LITE_MakerSpace = """
 
 **Location**: Rose Hill, Walsh Library, Basement
 **Open Hours**: Monday - Friday, 10 AM - 6 PM
-**How to Book**: [Calendly](https://calendly.com/fordham_lite/makerspace?)
+**How to Book**: [Booking](https://fordhamlite.skedda.com/booking)
 
 ![Makerspace](https://media.istockphoto.com/id/963503054/photo/factory-worker-using-computer-to-operate-automation.jpg?s=2048x2048&w=is&k=20&c=Jcl34Nh2yMjJSO5QOk0NAmYfyyAgKK5aA6r3Og-uVC0=)
 

@@ -34,6 +34,11 @@ class _ArVrPageState extends State<ArVrPage>
 
   AnimationController? _animationController;
   Animation<double>? _animation;
+<<<<<<< Updated upstream
+=======
+  int location = 0;
+  String locationName = '';
+>>>>>>> Stashed changes
 
   @override
   void initState() {
@@ -66,6 +71,73 @@ class _ArVrPageState extends State<ArVrPage>
     setState(() {});
   }
 
+<<<<<<< Updated upstream
+=======
+Future<void> onARKitViewCreated(ARKitController controller) async {
+    arkitController = controller;
+    arkitController?.addCoachingOverlay(CoachingOverlayGoal.horizontalPlane);
+    arkitController?.addCoachingOverlay(CoachingOverlayGoal.verticalPlane);
+    arkitController?.addCoachingOverlay(CoachingOverlayGoal.anyPlane);
+
+    updateARContent();
+  }
+
+  void updateARContent() {
+    arkitController?.remove("container");
+    arkitController?.remove("image");
+    arkitController?.remove("title");
+    arkitController?.remove("subText");
+    arkitController?.remove("list1");
+    arkitController?.remove("list2");
+    arkitController?.remove("list3");
+    arkitController?.remove("list4");
+    arkitController?.remove("status");
+
+    for (int i = 0; i < 5; i++) {
+      arkitController?.remove("star$i");
+    }
+
+    for (int i = 1; i < 5; i++) {
+      arkitController?.remove("bottomImage$i");
+    }
+
+    // Create and add the container background
+    final containerNode = _createContainerBackground();
+    arkitController?.add(containerNode);
+
+    // Create and add text nodes separately
+    arkitController?.add(AddImage());
+    arkitController?.add(_createTitleText());
+    arkitController?.add(_createSubText());
+    arkitController?.add(_createList1Text());
+    arkitController?.add(_createList2Text());
+    arkitController?.add(_createList3Text());
+    arkitController?.add(_createList4Text());
+    arkitController?.add(_createStatusText());
+
+    // Add stars
+    for (int i = 0; i < 5; i++) {
+      arkitController?.add(_createStarNode(i));
+    }
+    // Add Bottom Image
+    for (int i = 1; i < 5; i++) {
+      arkitController?.add(AddBottomImage(i));
+    }
+  }
+
+  void selectedLocation(int index, String name) {
+    kDebugMode ? print('Selected location: $index and $name') : null;
+    setState(() {
+      location = index;
+      locationName = name;
+      if (arkitController != null) {
+        updateARContent();
+      }
+    });
+  }
+
+
+>>>>>>> Stashed changes
   void toggleARKitView(dynamic label) {
     setState(() {
       _showARKitView = !_showARKitView;
@@ -89,6 +161,7 @@ class _ArVrPageState extends State<ArVrPage>
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+<<<<<<< Updated upstream
     // ignore: unused_local_variable
     String _colorName = 'No';
 
@@ -148,6 +221,34 @@ class _ArVrPageState extends State<ArVrPage>
                 });
               }),
         ],
+=======
+    return WillPopScope(
+      onWillPop: () async {
+        _cleanupResources();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Color(0xFF26292C),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: buildCircularMenu(),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (_isCameraInitialized && _showARKitView)
+              ARKitSceneView(
+                onARKitViewCreated: onARKitViewCreated,
+              )
+            else if (!_showARKitView)
+              PanoramaPage(
+                arkitController: arkitController!,
+                panaoramaImage: cardInfo[location]["panoramaImage"] as String,
+              ),
+            buildBackButton(isDark),
+            if (showMap) buildMapSheet(),
+            buildARToggleButton(isDark),
+          ],
+        ),
+>>>>>>> Stashed changes
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -283,8 +384,16 @@ class _ArVrPageState extends State<ArVrPage>
       extrusionDepth: 1,
       materials: [
         ARKitMaterial(
+<<<<<<< Updated upstream
           diffuse: ARKitMaterialProperty.color(Colors.blue),
         )
+=======
+          // diffuse: ARKitMaterialProperty.color(Colors.white),
+          diffuse: ARKitMaterialProperty.image(
+              cardInfo[location]['image'] as String),
+          doubleSided: true,
+        ),
+>>>>>>> Stashed changes
       ],
     );
     return ARKitNode(
@@ -294,6 +403,7 @@ class _ArVrPageState extends State<ArVrPage>
     );
   }
 
+<<<<<<< Updated upstream
   ARKitNode _createBox() => ARKitNode(
         geometry: ARKitBox(
             width: 0.06,
@@ -369,4 +479,307 @@ class _ArVrPageState extends State<ArVrPage>
       )
     ];
   }
+=======
+// Title text adjustment
+  ARKitNode _createTitleText() {
+    final titleText = ARKitText(
+      text: locationName,
+      extrusionDepth: 0.01, // Better extrusion for visibility
+      materials: [
+        ARKitMaterial(
+          diffuse: ARKitMaterialProperty.color(Colors.black87),
+        ),
+      ],
+    );
+
+    return ARKitNode(
+      name: "title",
+      geometry: titleText,
+      position: vector.Vector3(-0.08, 0.25, -1.19),
+      // Adjusted position to be inside the container
+      scale: vector.Vector3(
+          0.003, 0.003, 0.003), // Increased scale for better readability
+    );
+  }
+
+  // Address text adjustment
+  ARKitNode _createSubText() {
+    final addressText = ARKitText(
+      text: cardInfo[location]['subText'] as String,
+      extrusionDepth: 0.01,
+      materials: [
+        ARKitMaterial(
+          diffuse: ARKitMaterialProperty.color(Colors.black54),
+        ),
+      ],
+    );
+
+    return ARKitNode(
+      name: "subText",
+      geometry: addressText,
+      position: vector.Vector3(-0.08, 0.20, -1.19),
+      // Positioned below the title
+      //   -0.23, 0.1, -1.19
+      scale:
+          vector.Vector3(0.002, 0.002, 0.002), // Adjusted scale for readability
+    );
+  }
+
+// List Item 1 text adjustment
+  ARKitNode _createList1Text() {
+    final addressText = ARKitText(
+      text: cardInfo[location]['list1'] as String,
+      extrusionDepth: 0.01,
+      materials: [
+        ARKitMaterial(
+          diffuse: ARKitMaterialProperty.color(Colors.black54),
+        ),
+      ],
+    );
+
+    return ARKitNode(
+      name: "list1",
+      geometry: addressText,
+      position: vector.Vector3(-0.33, 0.08, -1.19),
+      // Positioned below the title
+      //   -0.23, 0.1, -1.19
+      scale:
+          vector.Vector3(0.002, 0.002, 0.002), // Adjusted scale for readability
+    );
+  }
+
+// List Item 2 text adjustment
+  ARKitNode _createList2Text() {
+    final addressText = ARKitText(
+      text: cardInfo[location]['list2'] as String,
+      extrusionDepth: 0.01,
+      materials: [
+        ARKitMaterial(
+          diffuse: ARKitMaterialProperty.color(Colors.black54),
+        ),
+      ],
+    );
+
+    return ARKitNode(
+      name: "list2",
+      geometry: addressText,
+      position: vector.Vector3(-0.33, 0.04, -1.19),
+      // Positioned below the title
+      //   -0.23, 0.1, -1.19
+      scale:
+          vector.Vector3(0.002, 0.002, 0.002), // Adjusted scale for readability
+    );
+  }
+
+  // List Item 3 text adjustment
+  ARKitNode _createList3Text() {
+    final addressText = ARKitText(
+      text: cardInfo[location]['list3'] as String,
+      extrusionDepth: 0.01,
+      materials: [
+        ARKitMaterial(
+          diffuse: ARKitMaterialProperty.color(Colors.black54),
+        ),
+      ],
+    );
+
+    return ARKitNode(
+      name: "list3",
+      geometry: addressText,
+      position: vector.Vector3(-0.33, 0.00, -1.19),
+      // Positioned below the title
+      //   -0.23, 0.1, -1.19
+      scale:
+          vector.Vector3(0.002, 0.002, 0.002), // Adjusted scale for readability
+    );
+  }
+
+  // List Item 4 text adjustment
+  ARKitNode _createList4Text() {
+    final addressText = ARKitText(
+      text: cardInfo[location]['list4'] as String,
+      extrusionDepth: 0.01,
+      materials: [
+        ARKitMaterial(
+          diffuse: ARKitMaterialProperty.color(Colors.black54),
+        ),
+      ],
+    );
+
+    return ARKitNode(
+      name: "list4",
+      geometry: addressText,
+      position: vector.Vector3(-0.33, -0.04, -1.19),
+      // Positioned below the title
+      //   -0.23, 0.1, -1.19
+      scale:
+          vector.Vector3(0.002, 0.002, 0.002), // Adjusted scale for readability
+    );
+  }
+
+// Status text adjustment
+  ARKitNode _createStatusText() {
+    final statusText = ARKitText(
+      text: cardInfo[location]['status'] as String,
+      extrusionDepth: 0.01,
+      materials: [
+        ARKitMaterial(
+          diffuse: ARKitMaterialProperty.color(Colors.black54),
+        ),
+      ],
+    );
+
+    return ARKitNode(
+      name: "status",
+      geometry: statusText,
+      position: vector.Vector3(-0.23, -0.14, -1.19),
+      // Positioned near the bottom
+      scale: vector.Vector3(
+          0.002, 0.002, 0.002), // Consistent scale with the address
+    );
+  }
+
+// Adjusted star node creation
+  ARKitNode _createStarNode(int i) {
+    final star = ARKitBox(
+      width: 0.015, // Slightly increased size for visibility
+      height: 0.015,
+      length: 0.01,
+      materials: [
+        ARKitMaterial(
+          diffuse: ARKitMaterialProperty.color(
+            // Adjusted color for visibility from gray to red
+            i.isEven
+                ? Color.fromARGB(255, 92, 7, 1)
+                : Color.fromARGB(255, 246, 158, 154),
+          ),
+        ),
+      ],
+    );
+
+    return ARKitNode(
+      geometry: star,
+      position: vector.Vector3(
+          -0.33 + i * 0.03, -0.24, -1.19), // Positioned horizontally
+    );
+  }
+
+  ARKitNode AddBottomImage(int i) {
+    final container = ARKitBox(
+      width: 0.12, // Increased width
+      height: 0.08, // Increased height
+      length: 0.01, // Depth remains the same for a flat background
+      materials: [
+        ARKitMaterial(
+          // diffuse: ARKitMaterialProperty.color(Colors.white),
+          diffuse:
+              ARKitMaterialProperty.image('assets/images/backgrounds/$i.png'),
+          doubleSided: true,
+        ),
+      ],
+    );
+
+    return ARKitNode(
+      name: "bottomImage$i",
+      geometry: container,
+      position: vector.Vector3(
+          -0.2 + i * 0.13, -0.24, -1.19), // Adjusted position for centering
+    );
+  }
+}
+
+extension ARKitNodeExtension on ARKitNode {
+  void addChildNode(ARKitNode child) {
+    // Implement the method to add a child node
+    this.addChildNode(child);
+  }
+}
+
+ARKitNode _createContainerBackground() {
+  final container = ARKitBox(
+    width: 0.8,
+    height: 0.70,
+    length: 0.01,
+    materials: [
+      ARKitMaterial(
+        diffuse:
+            ARKitMaterialProperty.color(Color.fromARGB(172, 255, 255, 255)),
+        doubleSided: true,
+      ),
+    ],
+  );
+
+  return ARKitNode(
+    name: "container",
+    geometry: container,
+    position: vector.Vector3(0, 0, -1.2),
+  );
+}
+
+ARKitNode AddImage(int i) {
+  var location = i;
+  final container = ARKitBox(
+    width: 0.2,
+    height: 0.12,
+    length: 0.01,
+    materials: [
+      ARKitMaterial(
+        diffuse:
+            ARKitMaterialProperty.image(cardInfo[location]['image'] as String),
+        doubleSided: true,
+      ),
+    ],
+  );
+
+  return ARKitNode(
+    name: "image",
+    geometry: container,
+    position: vector.Vector3(-0.24, 0.25, -1.19),
+  );
+}
+
+ARKitNode _createStarNode(int i) {
+  final star = ARKitBox(
+    width: 0.015,
+    height: 0.015,
+    length: 0.01,
+    materials: [
+      ARKitMaterial(
+        diffuse: ARKitMaterialProperty.color(
+          i.isEven
+              ? Color.fromARGB(255, 92, 7, 1)
+              : Color.fromARGB(255, 246, 158, 154),
+        ),
+      ),
+    ],
+  );
+
+  return ARKitNode(
+    name: "star$i",
+    geometry: star,
+    position: vector.Vector3(-0.33 + i * 0.03, -0.24, -1.19),
+  );
+  }
+
+ARKitNode AddBottomImage(int i) {
+  var location = i;
+  final container = ARKitBox(
+    width: 0.12,
+    height: 0.08,
+    length: 0.01,
+    materials: [
+      ARKitMaterial(
+        diffuse:
+            ARKitMaterialProperty.image('assets/images/backgrounds/$i.png'),
+        doubleSided: true,
+      ),
+    ],
+  );
+
+  return ARKitNode(
+    name: "bottomImage$i",
+    geometry: container,
+    position: vector.Vector3(-0.2 + i * 0.13, -0.24, -1.19),
+  );
+>>>>>>> Stashed changes
 }

@@ -32,12 +32,11 @@ class Home extends StatelessWidget {
               color: isDark ? Colors.black : Colors.white,
             ),
             child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
               children: [
-                // const WebView(),
                 SliderImages(),
-                // ArVrPage(),
                 WebView(
-                    url: Uri.parse('https://calendly.com/fordham_lite'),
+                    url: Uri.parse('https://fordhamlite.skedda.com/booking'),
                     showBackButton: false),
               ],
             ),

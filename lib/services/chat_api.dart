@@ -5,11 +5,15 @@ import 'package:FordhamAR/constants/api_consts.dart';
 import 'package:FordhamAR/models/chat_message.dart';
 
 class ChatApi {
-  // static const _model = 'gpt-3.5-turbo';
   static const _model = 'gpt-4-turbo-preview';
 
+<<<<<<< Updated upstream
   // final _responseController = StreamController<String>();
   StreamController<String> _responseController = StreamController<String>.broadcast();
+=======
+  StreamController<String> _responseController =
+      StreamController<String>.broadcast();
+>>>>>>> Stashed changes
 
   Stream<String> get responseStream => _responseController.stream;
 
@@ -18,11 +22,28 @@ class ChatApi {
     OpenAI.organization = openAiOrg;
   }
 
-  // Stream<String> get responseStream => _responseController.stream;
+  String _formatMessage(ChatMessage message) {
+    var prompt = """
+    Below is a conversation between you and a prompt user:
+    message: ${message.content};
+    Limit all search responses to Fordham University.
+    """;
+    return prompt;
+  }
 
   void completeChat(List<ChatMessage> messages) async {
+    final formattedMessages = messages.map((e) {
+      return OpenAIChatCompletionChoiceMessageModel(
+        role: e.isUserMessage
+            ? OpenAIChatMessageRole.user
+            : OpenAIChatMessageRole.system,
+        content: e.isUserMessage ? _formatMessage(e) : e.content,
+      );
+    }).toList();
+
     final chatCompletion = await OpenAI.instance.chat.createStream(
       model: _model,
+<<<<<<< Updated upstream
       messages: messages
           .map((e) => OpenAIChatCompletionChoiceMessageModel(
         role: e.isUserMessage
@@ -31,6 +52,9 @@ class ChatApi {
         content: e.message,
       ))
           .toList(),
+=======
+      messages: formattedMessages,
+>>>>>>> Stashed changes
       temperature: 0.5,
       topP: 1,
     );

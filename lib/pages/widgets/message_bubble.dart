@@ -49,13 +49,18 @@ class MessageBubble extends StatelessWidget {
               Row(
                 children: [
                   CircleAvatar(
-                    minRadius: 12,
-                    maxRadius: 12,
+                    minRadius: 13,
+                    maxRadius: 13,
                     backgroundColor: Colors.transparent,
                     backgroundImage: isUserMessage
                         ? const AssetImage(
+<<<<<<< Updated upstream
                                     'assets/images/profileHolder.jpg')
                                 as ImageProvider<Object>
+=======
+                        'assets/icons/1024.png')
+                            as ImageProvider<Object>
+>>>>>>> Stashed changes
                         : AssetImage('assets/images/fordham.png')
                             as ImageProvider<Object>,
                   ),

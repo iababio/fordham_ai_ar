@@ -62,10 +62,16 @@ class _MessageComposerState extends State<MessageComposer> {
 
   final requestTemplate = [
     {
-      "message": "I need help with ultimaker",
+      "message": "Where can I register for events on campus",
     },
     {
-      "message": "I need help with 3D printing",
+      "message": "Printing facilities on campus",
+    },
+    {
+      "message": "I need help with 3D and MakerSpace facilities on campus",
+    },
+    {
+      "message": "Study Pods",
     },
     {
       "message": "I need help with PodCast/Recoding",

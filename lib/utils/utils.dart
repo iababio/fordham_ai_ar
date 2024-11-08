@@ -15,7 +15,6 @@ const _myListOfRandomColors = [
   Colors.teal,
   Colors.green,
   Colors.orange,
-
 ];
 
 final _random = Random();
@@ -32,13 +31,13 @@ String generateRandomHeadline() {
     4 => '$artist talks about her ${nouns[_random.nextInt(nouns.length)]}',
     5 => '$artist talks about their ${nouns[_random.nextInt(nouns.length)]}',
     6 =>
-    '$artist says their music is inspired by ${wordPairIterator.first.join(' ')}',
+      '$artist says their music is inspired by ${wordPairIterator.first.join(' ')}',
     7 =>
-    '$artist says the world needs more ${nouns[_random.nextInt(nouns.length)]}',
+      '$artist says the world needs more ${nouns[_random.nextInt(nouns.length)]}',
     8 =>
-    '$artist calls their band ${adjectives[_random.nextInt(adjectives.length)]}',
+      '$artist calls their band ${adjectives[_random.nextInt(adjectives.length)]}',
     9 =>
-    '$artist finally ready to talk about ${nouns[_random.nextInt(nouns.length)]}',
+      '$artist finally ready to talk about ${nouns[_random.nextInt(nouns.length)]}',
     _ => 'Failed to generate news headline',
   };
 }
@@ -51,7 +50,7 @@ final imagesList = [
 ];
 
 final content = [
-  ''' 
+  '''
 ### Fordham Lite Center 💡
 
 Learning Commons, LITE: Learning, Innovation, Technology Environment
@@ -72,7 +71,7 @@ The LITE annex at LC is open from:
 
 Access to the Jamboard is open to all walk-ins.
 
-The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.  Please sign up via Calendly here.
+The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.
 
 As a collaboration between Information Technology and Fordham University Libraries, LITE brings a much needed comprehensive, integrated learning commons to the Fordham community. LITE is meant to be accessible and available to all of Fordham’s students, faculty, and administrators.
 
@@ -103,7 +102,7 @@ Several collaborative work areas
 - __Robust scanning options__
 
   ''',
-  ''' 
+  '''
 ### Fordham Hospital Center
 
 Learning Commons, LITE: Learning, Innovation, Technology Environment
@@ -124,7 +123,7 @@ The LITE annex at LC is open from:
 
 Access to the Jamboard is open to all walk-ins.
 
-The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.  Please sign up via Calendly here.
+The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.
 
 As a collaboration between Information Technology and Fordham University Libraries, LITE brings a much needed comprehensive, integrated learning commons to the Fordham community. LITE is meant to be accessible and available to all of Fordham’s students, faculty, and administrators.
 
@@ -154,7 +153,7 @@ Several collaborative work areas
 - __Assistive Technology workstations__
 - __Robust scanning options__
   ''',
-  ''' 
+  '''
   __Welcome to Fordham IT Center 💡__
 
 Learning Commons, LITE: Learning, Innovation, Technology Environment
@@ -175,7 +174,7 @@ The LITE annex at LC is open from:
 
 Access to the Jamboard is open to all walk-ins.
 
-The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.  Please sign up via Calendly here.
+The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.
 
 As a collaboration between Information Technology and Fordham University Libraries, LITE brings a much needed comprehensive, integrated learning commons to the Fordham community. LITE is meant to be accessible and available to all of Fordham’s students, faculty, and administrators.
 
@@ -225,7 +224,7 @@ The LITE annex at LC is open from:
 
 Access to the Jamboard is open to all walk-ins.
 
-The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.  Please sign up via Calendly here.
+The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.
 
 As a collaboration between Information Technology and Fordham University Libraries, LITE brings a much needed comprehensive, integrated learning commons to the Fordham community. LITE is meant to be accessible and available to all of Fordham’s students, faculty, and administrators.
 
@@ -255,7 +254,7 @@ Several collaborative work areas
 - __Assistive Technology workstations__
 - __Robust scanning options__
 ''',
-  ''' 
+  '''
   __Welcome to Fordham Sports Center 💡__
 
 Learning Commons, LITE: Learning, Innovation, Technology Environment
@@ -276,7 +275,7 @@ The LITE annex at LC is open from:
 
 Access to the Jamboard is open to all walk-ins.
 
-The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.  Please sign up via Calendly here.
+The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.
 
 As a collaboration between Information Technology and Fordham University Libraries, LITE brings a much needed comprehensive, integrated learning commons to the Fordham community. LITE is meant to be accessible and available to all of Fordham’s students, faculty, and administrators.
 
@@ -306,7 +305,7 @@ Several collaborative work areas
 - __Assistive Technology workstations__
 - __Robust scanning options__
 ''',
-  ''' 
+  '''
   __Welcome to Fordham Lite Center 💡__
 
 Learning Commons, LITE: Learning, Innovation, Technology Environment
@@ -327,7 +326,7 @@ The LITE annex at LC is open from:
 
 Access to the Jamboard is open to all walk-ins.
 
-The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.  Please sign up via Calendly here.
+The community should sign up to reserve time in the recording rooms, XR room, the 3D printers and makerspace at RH and LC.
 
 As a collaboration between Information Technology and Fordham University Libraries, LITE brings a much needed comprehensive, integrated learning commons to the Fordham community. LITE is meant to be accessible and available to all of Fordham’s students, faculty, and administrators.
 

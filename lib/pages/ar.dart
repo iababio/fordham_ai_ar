@@ -1,17 +1,17 @@
 import 'dart:async';
-import 'dart:math' as math;
 
+import 'package:FordhamAR/utils/cardInfo.dart';
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:circular_menu/circular_menu.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:FordhamAR/detect_page.dart';
 import 'package:FordhamAR/google_maps.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
+import '../ar_photo.dart';
 import 'widgets/info_dialog.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
-
 
 class ArVrPage extends StatefulWidget {
   const ArVrPage({Key? key, required this.camera}) : super(key: key);
@@ -24,32 +24,50 @@ class ArVrPage extends StatefulWidget {
 
 class _ArVrPageState extends State<ArVrPage>
     with SingleTickerProviderStateMixin {
-  ARKitController? arkitController; // Nullable ARKitController
+  ARKitController? arkitController;
   Timer? timer;
   bool anchorWasFound = false;
   bool showMap = false;
-  bool _showARKitView = false;
+  bool _showARKitView = true;
   String imageDetected = '';
   CameraController? cameraController;
+  final GlobalKey<CircularMenuState> _menuKey = GlobalKey<CircularMenuState>();
+  bool _isCameraInitialized = false;
 
   AnimationController? _animationController;
   Animation<double>? _animation;
-<<<<<<< Updated upstream
-=======
   int location = 0;
   String locationName = '';
->>>>>>> Stashed changes
 
   @override
   void initState() {
     super.initState();
-    getCam();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    initializeCamera();
+    _setupAnimation();
+    _setOrientation();
+  }
 
-    // Initialize the animation controller
+  Future<void> initializeCamera() async {
+    try {
+      cameraController = CameraController(
+        widget.camera[0],
+        ResolutionPreset.high,
+        enableAudio: false,
+      );
+
+      await cameraController?.initialize();
+
+      if (!mounted) return;
+
+      setState(() {
+        _isCameraInitialized = true;
+      });
+    } catch (e) {
+      print('Error initializing camera: $e');
+    }
+  }
+
+  void _setupAnimation() {
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -60,20 +78,17 @@ class _ArVrPageState extends State<ArVrPage>
       curve: Curves.easeInOut,
     );
 
-    // Start the animation
     _animationController!.forward();
   }
 
-  void getCam() async {
-    cameraController =
-        CameraController(widget.camera[0], ResolutionPreset.high);
-    await cameraController?.initialize();
-    setState(() {});
+  void _setOrientation() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
-<<<<<<< Updated upstream
-=======
-Future<void> onARKitViewCreated(ARKitController controller) async {
+  Future<void> onARKitViewCreated(ARKitController controller) async {
     arkitController = controller;
     arkitController?.addCoachingOverlay(CoachingOverlayGoal.horizontalPlane);
     arkitController?.addCoachingOverlay(CoachingOverlayGoal.verticalPlane);
@@ -136,92 +151,64 @@ Future<void> onARKitViewCreated(ARKitController controller) async {
     });
   }
 
-
->>>>>>> Stashed changes
   void toggleARKitView(dynamic label) {
     setState(() {
       _showARKitView = !_showARKitView;
       imageDetected = label;
+
+      if (!_showARKitView) {
+        // Turn off ARKit view and dispose the camera
+        arkitController?.dispose();
+        arkitController = null;
+
+        // Dispose of the camera controller
+        if (cameraController != null) {
+          cameraController?.dispose();
+          cameraController = null;
+        }
+      } else {
+        // Re-initialize ARKit view when toggling back
+        initializeCamera();
+      }
     });
   }
 
+  bool _isDisposed = false;
+
   @override
   void dispose() {
-    _animationController?.dispose();
-    cameraController?.dispose(); // Dispose of the camera controller
-    timer?.cancel();
-
-    // Safely dispose the ARKit controller if it is initialized
-    arkitController?.dispose();
-
+    _cleanupResources();
     super.dispose();
+  }
+
+  void _cleanupResources() async {
+    if (_isDisposed) return;
+
+    // Dispose of the camera controller
+    if (cameraController != null) {
+      await cameraController?.dispose();
+      cameraController = null;
+    }
+
+    // Dispose of the ARKit controller
+    if (arkitController != null) {
+      arkitController?.dispose();
+      arkitController = null;
+    }
+
+    if (_animationController != null && _animationController!.isAnimating) {
+      _animationController!.stop();
+    }
+    _animationController?.dispose();
+
+    timer?.cancel();
+    _isDisposed = true;
   }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-<<<<<<< Updated upstream
-    // ignore: unused_local_variable
-    String _colorName = 'No';
-
-    return Scaffold(
-      backgroundColor: Color(0xFF26292C),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: CircularMenu(
-        toggleButtonSize: 30,
-        alignment: Alignment.bottomCenter,
-        toggleButtonColor: Color(0xFFB22002),
-        items: [
-          CircularMenuItem(
-              icon: Icons.home,
-              color: Colors.green,
-              iconSize: 20,
-              onTap: () {
-                Navigator.of(context).pop();
-                setState(() {
-                  _colorName = 'Green';
-                });
-              }),
-          CircularMenuItem(
-              icon: Icons.castle,
-              color: Colors.blue,
-              iconSize: 20,
-              onTap: () {
-                setState(() {
-                  showMap = !showMap;
-                });
-              }),
-          CircularMenuItem(
-              icon: Icons.map_outlined,
-              color: Colors.red,
-              iconSize: 20,
-              onTap: () {
-                setState(() {
-                  showMap = !showMap;
-                });
-              }),
-          CircularMenuItem(
-              icon: Icons.info,
-              color: Colors.brown,
-              iconSize: 20,
-              onTap: () {
-                dialogBuilder(context);
-                setState(() {
-                  _colorName = 'Brown';
-                });
-              }),
-          CircularMenuItem(
-              icon: Icons.swap_calls,
-              color: Colors.orange,
-              iconSize: 20,
-              onTap: () {
-                setState(() {
-                  _showARKitView = !_showARKitView;
-                });
-              }),
-        ],
-=======
     return WillPopScope(
       onWillPop: () async {
         _cleanupResources();
@@ -241,245 +228,169 @@ Future<void> onARKitViewCreated(ARKitController controller) async {
             else if (!_showARKitView)
               PanoramaPage(
                 arkitController: arkitController!,
-                panaoramaImage: cardInfo[location]["panoramaImage"] as String,
+                panaoramaImage: cardInfo[location]["panoramaImage"]! as String,
               ),
             buildBackButton(isDark),
             if (showMap) buildMapSheet(),
             buildARToggleButton(isDark),
           ],
         ),
->>>>>>> Stashed changes
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          _showARKitView
-              ? ARKitSceneView(
-                  onARKitViewCreated: onARKitViewCreated,
-                )
-              : DetectObj(
-                  cameras: widget.camera, toddleARKitView: toggleARKitView),
-          Positioned(
-            top: 60,
-            left: 20,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isDark ? Colors.white : Colors.black,
+    );
+  }
+
+  Widget buildBackButton(bool isDark) {
+    return Positioned(
+      top: 60,
+      left: 20,
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isDark ? Colors.white : Colors.black,
+        ),
+        child: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            size: 20,
+            color: isDark ? Colors.black : Colors.white,
+          ),
+          onPressed: () async {
+            _cleanupResources();
+            if (mounted) {
+              Navigator.pop(context);
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget buildCircularMenu() {
+    return CircularMenu(
+      key: _menuKey,
+      toggleButtonSize: 30,
+      radius: 60,
+      alignment: Alignment.bottomCenter,
+      toggleButtonColor: Color(0xFFB22002),
+      items: [
+        CircularMenuItem(
+          icon: Icons.home,
+          color: Colors.green,
+          iconSize: 20,
+          onTap: () => Navigator.of(context).pop(),
+        ),
+        CircularMenuItem(
+          icon: Icons.map_outlined,
+          color: Colors.red,
+          iconSize: 20,
+          onTap: () => setState(() => showMap = !showMap),
+        ),
+        CircularMenuItem(
+          icon: Icons.info,
+          color: Colors.brown,
+          iconSize: 20,
+          onTap: () => dialogBuilder(context),
+        ),
+      ],
+    );
+  }
+
+  Widget buildMapSheet() {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.35,
+      minChildSize: 0.25,
+      maxChildSize: 0.75,
+      builder: (context, scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+            child: GoogleMaps(selectedLocation: selectedLocation),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildARToggleButton(bool isDark) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: FadeTransition(
+        opacity: _animation!,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.1 + 400,
+          ),
+          child: Container(
+            margin: EdgeInsets.only(right: 10),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isDark ? Color.fromARGB(172, 255, 255, 255) : Colors.black,
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.view_in_ar,
+                size: 30,
+                color: isDark ? Colors.black : Colors.white,
               ),
-              child: Center(
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios_new,
-                    size: 20,
-                    color: isDark ? Colors.black : Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
+              onPressed: () => setState(() => _showARKitView = !_showARKitView),
             ),
           ),
-          if (showMap)
-            DraggableScrollableSheet(
-              initialChildSize: 0.35,
-              minChildSize: 0.25,
-              maxChildSize: 0.75,
-              builder:
-                  (BuildContext context, ScrollController scrollController) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    ),
-                    child: GoogleMaps(),
-                  ),
-                );
-              },
-            ),
-          _showARKitView
-              ? Align(
-                  alignment: Alignment.topRight,
-                  child: FadeTransition(
-                    opacity: _animation!,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.1 + 400,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.view_in_ar,
-                          size: 50,
-                          color: isDark ? Colors.black : Colors.white,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _showARKitView = !_showARKitView;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                )
-              : SizedBox.shrink(),
-        ],
+        ),
       ),
     );
   }
 
-  void onARKitViewCreated(ARKitController controller) {
-    // Initialize arkitController here
-    arkitController = controller;
+// Rest of the methods remain the same, just updating the method names here for clarity
 
-    // ARKit objects creation logic...
-    arkitController?.add(_createSphere());
-    arkitController?.add(_createPlane());
-    arkitController?.add(_createText());
-    arkitController?.add(_createBox());
-    arkitController?.add(_createCylinder());
-    arkitController?.add(_createCone());
-    arkitController?.add(_createPyramid());
-    arkitController?.add(_createTube());
-    arkitController?.add(_createTorus());
-    arkitController?.add(_createCapsule());
-  }
-
-  ARKitNode _createSphere() => ARKitNode(
-        geometry:
-            ARKitSphere(materials: _createRandomColorMaterial(), radius: 0.04),
-        position: vector.Vector3(-0.1, -0.1, -0.5),
-      );
-
-  ARKitNode _createPlane() {
-    final plane = ARKitPlane(
-      width: 1,
-      height: 1,
+  ARKitNode _createContainerBackground() {
+    final container = ARKitBox(
+      width: 0.8, // Increased width
+      height: 0.70, // Increased height
+      length: 0.01, // Depth remains the same for a flat background
       materials: [
         ARKitMaterial(
-          transparency: 0.5,
-          diffuse: ARKitMaterialProperty.color(Colors.white),
-        )
-      ],
-    );
-    return ARKitNode(
-      geometry: plane,
-      position: vector.Vector3(0, 0, -1.5),
-    );
-  }
-
-  ARKitNode _createText() {
-    final text = ARKitText(
-      text: imageDetected == ''
-          ? 'Detect Objects on Fordham Campus '
-          : imageDetected,
-      extrusionDepth: 1,
-      materials: [
-        ARKitMaterial(
-<<<<<<< Updated upstream
-          diffuse: ARKitMaterialProperty.color(Colors.blue),
-        )
-=======
-          // diffuse: ARKitMaterialProperty.color(Colors.white),
-          diffuse: ARKitMaterialProperty.image(
-              cardInfo[location]['image'] as String),
+          diffuse:
+              ARKitMaterialProperty.color(Color.fromARGB(172, 255, 255, 255)),
+          // diffuse: ARKitMaterialProperty.image('assets/images/pexels-pixabay-290595.jpg'),
           doubleSided: true,
         ),
->>>>>>> Stashed changes
       ],
     );
+
     return ARKitNode(
-      geometry: text,
-      position: vector.Vector3(-0.3, 0.3, -1.4),
-      scale: vector.Vector3(0.02, 0.02, 0.02),
+      name: "container",
+      geometry: container,
+      position: vector.Vector3(0, 0, -1.2), // Adjusted position for centering
     );
   }
 
-<<<<<<< Updated upstream
-  ARKitNode _createBox() => ARKitNode(
-        geometry: ARKitBox(
-            width: 0.06,
-            height: 0.06,
-            length: 0.06,
-            chamferRadius: 0.01,
-            materials: _createRandomColorMaterial()),
-        position: vector.Vector3(-0.1, 0, -0.5),
-      );
-
-  ARKitNode _createCylinder() => ARKitNode(
-        geometry: ARKitCylinder(
-            radius: 0.05,
-            height: 0.09,
-            materials: _createRandomColorMaterial()),
-        position: vector.Vector3(-0.1, 0.1, -0.5),
-      );
-
-  ARKitNode _createCone() => ARKitNode(
-        geometry: ARKitCone(
-            topRadius: 0,
-            bottomRadius: 0.05,
-            height: 0.09,
-            materials: _createRandomColorMaterial()),
-        position: vector.Vector3(0, -0.2, -0.5),
-      );
-
-  ARKitNode _createPyramid() => ARKitNode(
-        geometry: ARKitPyramid(
-            width: 0.06,
-            height: 0.06,
-            length: 0.06,
-            materials: _createRandomColorMaterial()),
-        position: vector.Vector3(-0.2, -0.2, -0.5),
-      );
-
-  ARKitNode _createTube() => ARKitNode(
-        geometry: ARKitTube(
-            innerRadius: 0.03,
-            outerRadius: 0.05,
-            height: 0.2,
-            materials: _createRandomColorMaterial()),
-        position: vector.Vector3(0.2, -0.2, -0.5),
-      );
-
-  ARKitNode _createTorus() => ARKitNode(
-        geometry: ARKitTorus(
-            ringRadius: 0.05,
-            pipeRadius: 0.02,
-            materials: _createRandomColorMaterial()),
-        position: vector.Vector3(0.1, 0, -0.5),
-      );
-
-  ARKitNode _createCapsule() => ARKitNode(
-        geometry: ARKitCapsule(
-            capRadius: 0.03,
-            height: 0.1,
-            materials: _createRandomColorMaterial()),
-        position: vector.Vector3(0.2, 0.1, -0.5),
-      );
-
-  List<ARKitMaterial> _createRandomColorMaterial() {
-    final random = math.Random();
-    final color = Color.fromRGBO(
-      random.nextInt(256),
-      random.nextInt(256),
-      random.nextInt(256),
-      1,
+  ARKitNode AddImage() {
+    final container = ARKitBox(
+      width: 0.2, // Increased width
+      height: 0.12, // Increased height
+      length: 0.01, // Depth remains the same for a flat background
+      materials: [
+        ARKitMaterial(
+          // diffuse: ARKitMaterialProperty.color(Colors.white),
+          diffuse: ARKitMaterialProperty.image(
+              cardInfo[location]['image']! as String),
+          doubleSided: true,
+        ),
+      ],
     );
-    return [
-      ARKitMaterial(
-        diffuse: ARKitMaterialProperty.color(color),
-      )
-    ];
+
+    return ARKitNode(
+      name: "image",
+      geometry: container,
+      position:
+          vector.Vector3(-0.24, 0.25, -1.19), // Adjusted position for centering
+    );
   }
-=======
+
 // Title text adjustment
   ARKitNode _createTitleText() {
     final titleText = ARKitText(
@@ -505,7 +416,7 @@ Future<void> onARKitViewCreated(ARKitController controller) async {
   // Address text adjustment
   ARKitNode _createSubText() {
     final addressText = ARKitText(
-      text: cardInfo[location]['subText'] as String,
+      text: cardInfo[location]['subText']! as String,
       extrusionDepth: 0.01,
       materials: [
         ARKitMaterial(
@@ -528,7 +439,7 @@ Future<void> onARKitViewCreated(ARKitController controller) async {
 // List Item 1 text adjustment
   ARKitNode _createList1Text() {
     final addressText = ARKitText(
-      text: cardInfo[location]['list1'] as String,
+      text: cardInfo[location]['list1']! as String,
       extrusionDepth: 0.01,
       materials: [
         ARKitMaterial(
@@ -551,7 +462,7 @@ Future<void> onARKitViewCreated(ARKitController controller) async {
 // List Item 2 text adjustment
   ARKitNode _createList2Text() {
     final addressText = ARKitText(
-      text: cardInfo[location]['list2'] as String,
+      text: cardInfo[location]['list2']! as String,
       extrusionDepth: 0.01,
       materials: [
         ARKitMaterial(
@@ -574,7 +485,7 @@ Future<void> onARKitViewCreated(ARKitController controller) async {
   // List Item 3 text adjustment
   ARKitNode _createList3Text() {
     final addressText = ARKitText(
-      text: cardInfo[location]['list3'] as String,
+      text: cardInfo[location]['list3']! as String,
       extrusionDepth: 0.01,
       materials: [
         ARKitMaterial(
@@ -597,7 +508,7 @@ Future<void> onARKitViewCreated(ARKitController controller) async {
   // List Item 4 text adjustment
   ARKitNode _createList4Text() {
     final addressText = ARKitText(
-      text: cardInfo[location]['list4'] as String,
+      text: cardInfo[location]['list4']! as String,
       extrusionDepth: 0.01,
       materials: [
         ARKitMaterial(
@@ -620,7 +531,7 @@ Future<void> onARKitViewCreated(ARKitController controller) async {
 // Status text adjustment
   ARKitNode _createStatusText() {
     final statusText = ARKitText(
-      text: cardInfo[location]['status'] as String,
+      text: cardInfo[location]['status']! as String,
       extrusionDepth: 0.01,
       materials: [
         ARKitMaterial(
@@ -672,8 +583,10 @@ Future<void> onARKitViewCreated(ARKitController controller) async {
       materials: [
         ARKitMaterial(
           // diffuse: ARKitMaterialProperty.color(Colors.white),
-          diffuse:
-              ARKitMaterialProperty.image('assets/images/backgrounds/$i.png'),
+          diffuse: ARKitMaterialProperty.image(
+              'assets/images/backgrounds/' +
+                  i.toString() +
+                  '.png'),
           doubleSided: true,
         ),
       ],
@@ -738,6 +651,29 @@ ARKitNode AddImage(int i) {
   );
 }
 
+// Update other _create methods similarly, adding a name parameter to each ARKitNode
+// For example:
+
+ARKitNode _createTitleText(int i) {
+  var location = i;
+  final titleText = ARKitText(
+    text: cardInfo[location]['title']! as String,
+    extrusionDepth: 0.01,
+    materials: [
+      ARKitMaterial(
+        diffuse: ARKitMaterialProperty.color(Colors.black87),
+      ),
+    ],
+  );
+
+  return ARKitNode(
+    name: "title",
+    geometry: titleText,
+    position: vector.Vector3(-0.08, 0.25, -1.19),
+    scale: vector.Vector3(0.003, 0.003, 0.003),
+  );
+}
+
 ARKitNode _createStarNode(int i) {
   final star = ARKitBox(
     width: 0.015,
@@ -759,18 +695,17 @@ ARKitNode _createStarNode(int i) {
     geometry: star,
     position: vector.Vector3(-0.33 + i * 0.03, -0.24, -1.19),
   );
-  }
+}
 
 ARKitNode AddBottomImage(int i) {
-  var location = i;
   final container = ARKitBox(
     width: 0.12,
     height: 0.08,
     length: 0.01,
     materials: [
       ARKitMaterial(
-        diffuse:
-            ARKitMaterialProperty.image('assets/images/backgrounds/$i.png'),
+        diffuse: ARKitMaterialProperty.image(
+            'assets/images/backgrounds/$i.png'),
         doubleSided: true,
       ),
     ],
@@ -781,5 +716,4 @@ ARKitNode AddBottomImage(int i) {
     geometry: container,
     position: vector.Vector3(-0.2 + i * 0.13, -0.24, -1.19),
   );
->>>>>>> Stashed changes
 }

@@ -12,10 +12,6 @@ import 'package:FordhamAR/services/chat_api.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 class ChatPage extends StatefulWidget {
   const ChatPage({
     required this.chatApi,
@@ -160,12 +156,8 @@ class _ChatPageState extends State<ChatPage> {
               size: 27,
               color: isDark ? Colors.white70 : Colors.black87,
             ),
-<<<<<<< Updated upstream
-            onPressed: () => {}),
-=======
             onPressed: () =>
                 {Navigator.pop(context), HapticFeedback.mediumImpact()}),
->>>>>>> Stashed changes
         foregroundColor: isDark ? Colors.white : Colors.black,
         elevation: 0,
         title: Center(

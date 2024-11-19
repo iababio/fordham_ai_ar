@@ -7,13 +7,8 @@ import 'package:FordhamAR/models/chat_message.dart';
 class ChatApi {
   static const _model = 'gpt-4-turbo-preview';
 
-<<<<<<< Updated upstream
-  // final _responseController = StreamController<String>();
-  StreamController<String> _responseController = StreamController<String>.broadcast();
-=======
   StreamController<String> _responseController =
       StreamController<String>.broadcast();
->>>>>>> Stashed changes
 
   Stream<String> get responseStream => _responseController.stream;
 
@@ -32,35 +27,24 @@ class ChatApi {
   }
 
   void completeChat(List<ChatMessage> messages) async {
-    final formattedMessages = messages.map((e) {
-      return OpenAIChatCompletionChoiceMessageModel(
-        role: e.isUserMessage
-            ? OpenAIChatMessageRole.user
-            : OpenAIChatMessageRole.system,
-        content: e.isUserMessage ? _formatMessage(e) : e.content,
-      );
-    }).toList();
-
+    final formattedMessages = messages
+        .map((e) => OpenAIChatCompletionChoiceMessageModel(
+              role: e.isUserMessage
+                  ? OpenAIChatMessageRole.user
+                  : OpenAIChatMessageRole.system,
+              content: e.content
+                  as List<OpenAIChatCompletionChoiceMessageContentItemModel>?,
+            ))
+        .toList();
     final chatCompletion = await OpenAI.instance.chat.createStream(
       model: _model,
-<<<<<<< Updated upstream
-      messages: messages
-          .map((e) => OpenAIChatCompletionChoiceMessageModel(
-        role: e.isUserMessage
-            ? OpenAIChatMessageRole.user
-            : OpenAIChatMessageRole.system,
-        content: e.message,
-      ))
-          .toList(),
-=======
       messages: formattedMessages,
->>>>>>> Stashed changes
       temperature: 0.5,
       topP: 1,
     );
 
     chatCompletion.listen(
-          (streamChatCompletion) {
+      (streamChatCompletion) {
         final content = streamChatCompletion.choices.first.delta.content;
         _responseController.sink.add(content! as String);
       },

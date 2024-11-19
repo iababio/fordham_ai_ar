@@ -11,7 +11,7 @@ final cardInfo = [
     'list3': 'Accessible for students during regular university hours.',
     'list4': 'Often used for lectures and student activities.',
     'status': 'Open from 9:00AM - 6:00PM',
-    'panoramaImage': 'test.jpg',
+    'panoramaImage': 'test_n1.jpg',
   },
   {
     'image': 'assets/images/backgrounds/fordham.jpg',

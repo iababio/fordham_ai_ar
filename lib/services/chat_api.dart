@@ -27,15 +27,15 @@ class ChatApi {
   }
 
   void completeChat(List<ChatMessage> messages) async {
-    final formattedMessages = messages.map((e) {
-      return OpenAIChatCompletionChoiceMessageModel(
-        role: e.isUserMessage
-            ? OpenAIChatMessageRole.user
-            : OpenAIChatMessageRole.system,
-        content: e.isUserMessage ? _formatMessage(e) : e.content,
-      );
-    }).toList();
-
+    final formattedMessages = messages
+        .map((e) => OpenAIChatCompletionChoiceMessageModel(
+              role: e.isUserMessage
+                  ? OpenAIChatMessageRole.user
+                  : OpenAIChatMessageRole.system,
+              content: e.content
+                  as List<OpenAIChatCompletionChoiceMessageContentItemModel>?,
+            ))
+        .toList();
     final chatCompletion = await OpenAI.instance.chat.createStream(
       model: _model,
       messages: formattedMessages,
@@ -44,7 +44,7 @@ class ChatApi {
     );
 
     chatCompletion.listen(
-          (streamChatCompletion) {
+      (streamChatCompletion) {
         final content = streamChatCompletion.choices.first.delta.content;
         _responseController.sink.add(content! as String);
       },

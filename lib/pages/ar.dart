@@ -584,7 +584,7 @@ class _ArVrPageState extends State<ArVrPage>
         ARKitMaterial(
           // diffuse: ARKitMaterialProperty.color(Colors.white),
           diffuse: ARKitMaterialProperty.image(
-              (cardInfo[location]['bottomImage'] as String) +
+              'assets/images/backgrounds/' +
                   i.toString() +
                   '.png'),
           doubleSided: true,
@@ -698,7 +698,6 @@ ARKitNode _createStarNode(int i) {
 }
 
 ARKitNode AddBottomImage(int i) {
-  var location = i;
   final container = ARKitBox(
     width: 0.12,
     height: 0.08,
@@ -706,7 +705,7 @@ ARKitNode AddBottomImage(int i) {
     materials: [
       ARKitMaterial(
         diffuse: ARKitMaterialProperty.image(
-            '${cardInfo[location]['bottomImage']}$i.png'),
+            'assets/images/backgrounds/$i.png'),
         doubleSided: true,
       ),
     ],

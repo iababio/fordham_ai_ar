@@ -7,7 +7,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:FordhamAR/pages/ar.dart';
-import 'package:FordhamAR/pages/user_profile_page.dart';
 import 'package:FordhamAR/pages/webView.dart';
 import 'package:FordhamAR/slider.dart';
 

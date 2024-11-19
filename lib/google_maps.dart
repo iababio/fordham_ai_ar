@@ -72,7 +72,7 @@ class GoogleMapsState extends State<GoogleMaps> {
   Future<void> loadData() async {
     try {
       for (int i = 0; i < locations.length; i++) {
-        final Uint8List markerIcon = await getImages("assets/icons/1.png", 100);
+        final Uint8List markerIcon = await getImages("assets/icons/1.png", 130);
 
         _markers.add(
           Marker(

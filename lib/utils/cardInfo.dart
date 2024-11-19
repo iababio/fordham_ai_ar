@@ -2,7 +2,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 final cardInfo = [
   {
-    'image': 'assets/images/backgrounds/fordham.jpg',
+    'image': 'assets/images/backgrounds/7.png',
     'name': 'John Mulcahy Hall',
     'location': LatLng(40.8598444, -73.8847904),
     'subText': 'Academic building at Fordham University.',
@@ -11,7 +11,7 @@ final cardInfo = [
     'list3': 'Accessible for students during regular university hours.',
     'list4': 'Often used for lectures and student activities.',
     'status': 'Open from 9:00AM - 6:00PM',
-    'panoramaImage': 'john_mulcahy_hall.jpg',
+    'panoramaImage': 'test.jpg',
   },
   {
     'image': 'assets/images/backgrounds/fordham.jpg',

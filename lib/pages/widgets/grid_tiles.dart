@@ -39,7 +39,6 @@ class GridTilesPage extends StatelessWidget {
                 desc: "State of the Art Podcast facility @LITE",
                 icon: Icons.headphones,
                 data: podcast_content,
-
               ),
               GridTileItem(
                 title: "Library",
@@ -95,16 +94,16 @@ class GridTilesPage extends StatelessWidget {
                 color: Color.fromARGB(255, 229, 44, 44),
                 desc: "Fordham Hospital",
                 icon: Icons.local_hospital,
-                data: "Fordham Hospital",
+                data: Fordham_Health_Center,
               ),
-              GridTileItem(
-                title: "Sports",
-                percentage: 40,
-                color: Color.fromARGB(255, 175, 26, 150),
-                desc: "Fordham Sports",
-                icon: Icons.sports_baseball_outlined,
-                data: "Fordham Sports",
-              ),
+              // GridTileItem(
+              //   title: "Sports",
+              //   percentage: 40,
+              //   color: Color.fromARGB(255, 175, 26, 150),
+              //   desc: "Fordham Sports",
+              //   icon: Icons.sports_baseball_outlined,
+              //   data: "Fordham Sports",
+              // ),
               GridTileItem(
                 title: "Emerge..",
                 percentage: 40,
@@ -136,7 +135,7 @@ class GridTileItem extends StatelessWidget {
     required this.color,
     required this.desc,
     required this.icon,
-    required this.data, 
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -150,13 +149,6 @@ class GridTileItem extends StatelessWidget {
               builder: (context) => ChatPage(chatApi: ChatApi()),
             ),
           );
-        } else if (title == "Library") {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WebView(
-                    url: Uri.parse('https://www.library.fordham.edu/digital/')),
-              ));
         } else if (title == "Dining") {
           Navigator.push(
               context,
@@ -172,6 +164,14 @@ class GridTileItem extends StatelessWidget {
                 builder: (context) => WebView(
                     url: Uri.parse(
                         'https://vivenu.com/seller/fordham-university-9zmz')),
+              ));
+        } else if (title == "Emerge..") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WebView(
+                    url: Uri.parse(
+                        'https://www.fordham.edu/student-life/safety-health-and-wellness/health-services/emergency-medical-services/')),
               ));
         } else {
           Navigator.of(context).push(

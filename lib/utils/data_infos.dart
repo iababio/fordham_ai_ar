@@ -73,7 +73,7 @@ In particular, LITE offers:
   Open Monday - Thursday, 9 AM - 5 PM.  
   Access to the digital whiteboard is open to all walk-ins.
 
-*The community should sign up to reserve time in the recording rooms, XR room, the 3D printers, and Makerspace at Rose Hill and Lincoln Center*
+*The community should sign up to reserve time in the recording rooms, XR room, the 3D printers, and Makerspace at Rose Hill and Lincoln Center. Please sign up via Calendly [here](#).*
 
 ## Locations
 
@@ -109,15 +109,15 @@ final OBS = """
 
 **Location**: Rose Hill, Walsh Library, Basement  
 **Studio Hours**: Monday - Friday, 10 AM - 6 PM
-**How to Book**: [Booking](https://fordhamlite.skedda.com/booking)
+**How to Book**: [Calendly](https://calendly.com/fordham_lite/lite-recording-room-a-clone?)
 
-![OBS](https://firebasestorage.googleapis.com/v0/b/ramai-88436.appspot.com/o/IMG_9389.HEIC?alt=media&token=fb125e0c-984b-4aa8-8ab2-7c6f298bf309)
+![OBS](https://firebasestorage.googleapis.com/v0/b/ramai-88436.appspot.com/o/obs_2.jpg?alt=media&token=5587ee3e-f71f-4682-8e29-40e823572be4)
 
 ## Overview
 Open Broadcaster Software (OBS) is a free and open-source cross-platform streaming and recording program built with Qt and maintained by the OBS Project. There are versions of OBS available for Microsoft Windows, macOS, and Linux distributions. OBS is funded on Open Collective.
 
-![OBS](https://firebasestorage.googleapis.com/v0/b/ramai-88436.appspot.com/o/IMG_9376.HEIC?alt=media&token=f7f456e2-01b3-4c96-b890-86d96c3d7266)
-![OBS](https://firebasestorage.googleapis.com/v0/b/ramai-88436.appspot.com/o/IMG_9390.HEIC?alt=media&token=e53c1150-9c65-45c6-baaa-6c1dc77195e8)
+![OBS](https://firebasestorage.googleapis.com/v0/b/ramai-88436.appspot.com/o/obs_3.jpg?alt=media&token=395ed55d-8a93-42ef-ad6d-ae611075aeb2)
+![OBS](https://firebasestorage.googleapis.com/v0/b/ramai-88436.appspot.com/o/obs_4.jpg?alt=media&token=f9d3e787-0930-44b7-91b2-646556ea6935)
 """;
 
 final RAM_VAN = """
@@ -156,12 +156,69 @@ final LITE_MakerSpace = """
 
 **Location**: Rose Hill, Walsh Library, Basement
 **Open Hours**: Monday - Friday, 10 AM - 6 PM
-**How to Book**: [Booking](https://fordhamlite.skedda.com/booking)
+**How to Book**: [Calendly](https://calendly.com/fordham_lite/makerspace?)
 
-![Makerspace](https://media.istockphoto.com/id/963503054/photo/factory-worker-using-computer-to-operate-automation.jpg?s=2048x2048&w=is&k=20&c=Jcl34Nh2yMjJSO5QOk0NAmYfyyAgKK5aA6r3Og-uVC0=)
+![Makerspace](https://firebasestorage.googleapis.com/v0/b/ramai-88436.appspot.com/o/lab_2.jpg?alt=media&token=501ac347-f64d-479c-995f-8608fba84ce0)
 
 ## Overview
 A makerspace is a collaborative work space inside a school, library, or separate public/private facility for making, learning, exploring, and sharing that uses high tech to no tech tools. These spaces are open to kids, adults, and entrepreneurs and have a variety of maker equipment including 3D printers, laser cutters, cnc machines, soldering irons and even sewing machines.
 
-![Makerspace](https://media.istockphoto.com/id/1695358055/photo/teenage-boys-talking-with-teacher-over-3d-printer-in-the-classroom.jpg?s=2048x2048&w=is&k=20&c=eVwieGo9yBNbEandau1KGmWP8DMEInT25ZfIT7mc3k4=)
+![Makerspace](https://firebasestorage.googleapis.com/v0/b/ramai-88436.appspot.com/o/lab_3.jpg?alt=media&token=21de4cf1-2378-4ca1-954e-db9c05c3443b)
+""";
+
+final Fordham_Health_Center = """
+# Health Center: About Us
+
+[Main Page ->](https://www.fordham.edu/student-life/safety-health-and-wellness/health-services/health-center/)
+
+Academic Year Office Hours
+
+Monday to Friday:  8 a.m. to 6 p.m.
+
+Saturday and Sunday: 10 a.m. to 3 p.m.
+
+Monday Holidays: 10 a.m. to 3 p.m. 
+
+After hours - see urgent care options below
+
+## Summer, Winter and Spring Break Office Hours
+
+Monday to Friday: 9 a.m. to 5 p.m.
+
+Saturday, Sunday and Holidays - Closed 
+
+Closed on Fridays: - July 7 to August 11 
+
+![Makerspace](https://firebasestorage.googleapis.com/v0/b/ramai-88436.appspot.com/o/University-Health-Services_Jesse-Carlucci_The-Observer-600x400.jpg?alt=media&token=d6c15855-2987-4f01-b740-f59819916de4)
+
+## Health Center Mission
+
+University Health Services provides accessible and high-quality health care services to Fordham University students. It is our goal that students will develop an understanding of dealing with their own health, both physical and mental. We provide education to students with the expectation that this knowledge will enable them to live healthy lifestyles, promote wellness, and enable them to achieve academically, spiritually, and socially. Our medical team recognizes and welcomes the uniqueness of our students and we respect human diversity in all its forms. 
+
+We are members of the Ally Network of Support and we are committed to providing an inclusive environment for all. We assist our students in developing moral and ethical values and characteristics that reflect the Jesuit tradition in regards to health promotion and illness prevention.
+
+Fordham University is a Catholic and Jesuit University. As such, the physicians, nurse practitioners, and staff of the University Health Services abide by the guidelines of the Ethical and Religious Directives for Catholic Health Care Services.
+
+
+## Health Center Vision
+
+We recognize that many Fordham University students face pressures balancing academic responsibilities, extracurricular responsibilities, internship responsibilities, financial issues, and stressors related to achieving long-range goals. University Health Services has a role in helping students understand and cope with these issues in a “healthful” way, so they will have a successful college experience. 
+
+University Health Services works in partnership with Counseling and Psychological Services (CPS), the Office of Substance Abuse Prevention, and Mental Health and Disability Services to provide a variety of health-related services to the campus community. These services include primary health care such as treatment for acute illnesses, women’s and men’s health care, treatment of minor injuries, public health issues, and mental health concerns.
+
+In providing these services, we place an emphasis on health education, illness prevention, and encouraging healthy lifestyle choices. The staff of University Health Services is available to provide quality educational presentations with a focus on taking personal responsibility for one’s health and wellness.
+
+### These services include:
+
+- Primary Health Care
+- Immediate Care
+- Physical Examinations
+- Nutrition Counseling and Weight Management
+- Women’s and Men’s Health Care
+- Travel Health
+- Allergy Clinic
+- Physical Therapy
+- Laboratory Services
+
+In providing these services, an emphasis is placed on health education, illness prevention, and encouraging healthy lifestyle choices. University Health Services also serves as a resource for health education materials. The staff of University Health Services is available to other areas of the University to provide quality educational presentations with a focus on taking personal responsibility for one's health and wellness.
 """;

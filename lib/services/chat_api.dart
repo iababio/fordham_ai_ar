@@ -19,27 +19,52 @@ class ChatApi {
     OpenAI.organization = openAiOrg;
   }
 
-  // Stream<String> get responseStream => _responseController.stream;
 
+  String _formatMessage(ChatMessage message) {
+    var prompt = """
+    Below is a conversation between you and a prompt user:
+    message: ${message.content};
+    Limit all search responses to Fordham University.
+    """;
+    return prompt;
+  }
+  
   void completeChat(List<ChatMessage> messages) async {
-    final chatCompletion = await OpenAI.instance.chat.createStream(
+
+    final chatStream = OpenAI.instance.chat.createStream(
       model: _model,
       messages: messages
           .map((e) => OpenAIChatCompletionChoiceMessageModel(
-              role: e.isUserMessage
-                  ? OpenAIChatMessageRole.user
-                  : OpenAIChatMessageRole.system,
-              content: e.content
-                  as List<OpenAIChatCompletionChoiceMessageContentItemModel>?))
+                role: e.isUserMessage
+                    ? OpenAIChatMessageRole.user
+                    : OpenAIChatMessageRole.system,
+                content: [
+                  OpenAIChatCompletionChoiceMessageContentItemModel.text(
+                      _formatMessage(e)),
+                ],
+              ))
           .toList(),
-      temperature: 0.5,
-      topP: 1,
+      seed: 423,
+      n: 2,
     );
+    
+    String _cumulativeContent = "";
 
-    chatCompletion.listen(
+    // Listen to the stream.
+    chatStream.listen(
       (streamChatCompletion) {
-        final content = streamChatCompletion.choices.first.delta.content;
-        _responseController.sink.add(content! as String);
+        final contentItems = streamChatCompletion.choices.first.delta.content;
+
+        // Extract text from content items
+        final newContent = contentItems
+            ?.map((item) => item?.text);
+
+        // Avoid duplicate content
+        if (newContent != null &&
+            newContent.isNotEmpty &&
+            newContent.first != _cumulativeContent) {
+          _responseController.sink.add(newContent.first!);
+        }
       },
       onDone: () {
         print("Done");

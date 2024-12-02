@@ -308,7 +308,7 @@ class _ArVrPageState extends State<ArVrPage>
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-            child: GoogleMaps(selectedLocation: selectedLocation),
+            child: GoogleMaps(selectedLocation: selectedLocation, arkitController: arkitController!),
           ),
         );
       },

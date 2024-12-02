@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:FordhamAR/utils/cardInfo.dart';
+import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,12 +9,16 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'ar_photo.dart';
+
 class GoogleMaps extends StatefulWidget {
   final Function selectedLocation;
+  final ARKitController arkitController;
 
   const GoogleMaps({
     super.key,
     required this.selectedLocation,
+    required this.arkitController,
   });
 
   @override
@@ -82,7 +87,20 @@ class GoogleMapsState extends State<GoogleMaps> {
             infoWindow: InfoWindow(
               title: locations[i]["name"],
             ),
-            onTap: () => widget.selectedLocation(i, locations[i]["name"]),
+            onTap: () {
+              widget.selectedLocation(i, locations[i]["name"]);
+              final panoramaImage = locations[i]["panoramaImage"];
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PanoramaPage(
+                    arkitController: widget.arkitController,
+                    panaoramaImage: panoramaImage,
+
+                  ),
+                ),
+              );
+            },
           ),
         );
       }

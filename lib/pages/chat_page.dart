@@ -1,17 +1,16 @@
 // chat_page.dart
 import 'dart:async';
 
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+import 'package:FordhamAR/home_page.dart';
+import 'package:FordhamAR/main.dart';
+import 'package:FordhamAR/models/chat_message.dart';
 import 'package:FordhamAR/pages/widgets/message_bubble.dart';
 import 'package:FordhamAR/pages/widgets/message_composer.dart';
 import 'package:FordhamAR/services/chat_api.dart';
-import 'package:flutter/services.dart';
-import 'package:FordhamAR/models/chat_message.dart';
-import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
-import '../home_page.dart';
-import '../main.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -38,7 +37,6 @@ class _ChatPageState extends State<ChatPage> {
   ];
   var _awaitingResponse = false;
   StreamSubscription<String>? _responseSubscription;
-
   @override
   void initState() {
     super.initState();
@@ -68,25 +66,24 @@ class _ChatPageState extends State<ChatPage> {
       return;
     }
 
+
     setState(() {
       _messages.add(ChatMessage(message, true));
       _awaitingResponse = true;
     });
 
-    _messages.forEach((element) {
-      print(element.content);
-    });
-
     widget.chatApi.completeChat(_messages);
 
     _responseSubscription?.cancel(); // Cancel existing subscription if exists
-    _responseSubscription = widget.chatApi.responseStream.listen((responsePart) {
+    _responseSubscription =
+        widget.chatApi.responseStream.listen((responsePart) {
       if (mounted) {
         setState(() {
           if (_messages.last.isUserMessage) {
             _messages.add(ChatMessage(responsePart, false));
           } else {
-            _messages.last = ChatMessage(_messages.last.content + responsePart, false);
+            _messages.last =
+                ChatMessage(_messages.last.content + responsePart, false);
           }
         });
       }
@@ -106,7 +103,6 @@ class _ChatPageState extends State<ChatPage> {
     });
     HapticFeedback.mediumImpact();
   }
-
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -156,14 +152,12 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: isDark ? Colors.black : Colors.white,
         leading: IconButton(
             icon: FaIcon(
-              FontAwesomeIcons.alignLeft,
-              size: 25,
+              Icons.apps,
+              size: 27,
               color: isDark ? Colors.white70 : Colors.black87,
             ),
-            onPressed: () => {
-              Navigator.pop(context),
-              HapticFeedback.mediumImpact()
-            }),
+            onPressed: () =>
+                {Navigator.pop(context), HapticFeedback.mediumImpact()}),
         foregroundColor: isDark ? Colors.white : Colors.black,
         elevation: 0,
         title: Center(
@@ -188,24 +182,44 @@ class _ChatPageState extends State<ChatPage> {
             ),
           )
               .animate(
-            onComplete: (controller) => controller.repeat(),
-          )
+                onComplete: (controller) => controller.repeat(),
+              )
               .shimmer(
-            duration: const Duration(milliseconds: 2000),
-            delay: const Duration(milliseconds: 1000),
-          ),
+                duration: const Duration(milliseconds: 2000),
+                delay: const Duration(milliseconds: 1000),
+              ),
         ),
         actions: [
-          IconButton(
-            icon: FaIcon(
-              FontAwesomeIcons.penToSquare,
-              size: 22,
-              color: isDark ? Colors.white70 : Colors.black87,
-            ),
-            onPressed: () => {
-              setState(() => _messages.clear()),
-              HapticFeedback.mediumImpact()
-            },
+          Row(
+            children: [
+              IconButton(
+                icon: FaIcon(
+                  FontAwesomeIcons.penToSquare,
+                  size: 22,
+                  color: isDark ? Colors.white70 : Colors.black87,
+                ),
+                onPressed: () => {
+                  setState(() => _messages.clear()),
+                  HapticFeedback.mediumImpact()
+                },
+              ),
+              IconButton(
+                icon: FaIcon(
+                  FontAwesomeIcons.gripVertical,
+                  size: 22,
+                  color: isDark ? Colors.white70 : Colors.black87,
+                ),
+                onPressed: () => {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Home(
+                                cameras: cameras,
+                              ))),
+                  HapticFeedback.mediumImpact()
+                },
+              ),
+            ],
           ),
         ],
       ),
@@ -224,7 +238,7 @@ class _ChatPageState extends State<ChatPage> {
                     child: ListView.builder(
                       controller: _scrollController,
                       keyboardDismissBehavior:
-                      ScrollViewKeyboardDismissBehavior.onDrag,
+                          ScrollViewKeyboardDismissBehavior.onDrag,
                       itemCount: _messages.length,
                       itemBuilder: (context, index) {
                         if (_messages[index].content.isNotEmpty) {
@@ -233,7 +247,7 @@ class _ChatPageState extends State<ChatPage> {
                             messages: [_messages[index].content],
                             isUserMessage: _messages[index].isUserMessage,
                             mergeWithPrevious:
-                            index > 0 && !_messages[index].isUserMessage,
+                                index > 0 && !_messages[index].isUserMessage,
                           );
                         }
                         return SizedBox.shrink();
@@ -260,7 +274,8 @@ class _ChatPageState extends State<ChatPage> {
                     child: FloatingActionButton(
                       onPressed: _scrollToBottom,
                       child: Icon(Icons.arrow_downward,
-                          color: isDark ? Colors.black : Colors.white, size: 20),
+                          color: isDark ? Colors.black : Colors.white,
+                          size: 20),
                       mini: true,
                       backgroundColor: isDark ? Colors.white : Colors.black,
                     ),
@@ -276,12 +291,12 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void dispose() {
     _scrollController.removeListener(_scrollListener);
-    widget.chatApi.dispose();
-    _responseSubscription?.cancel();
-    _scrollController.dispose();
     setState(() {
       _awaitingResponse = false;
     });
+    widget.chatApi.dispose();
+    _responseSubscription?.cancel();
+    _scrollController.dispose();
     super.dispose();
   }
 }
